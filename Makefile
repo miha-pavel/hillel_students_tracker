@@ -1,5 +1,5 @@
 run:
-	./manage.py runserver
+	cd src && ./manage.py runserver
 
 test:
 	./manage.py test --keepdb
