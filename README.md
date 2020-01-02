@@ -1,10 +1,10 @@
-# hillel_django_girls
-Studying djangogirls tutorial
+# hillel_django_students_tracker
+Studying django students tracker
 This project supposed to run on `python3`
 
 
 ## Location
-This site locate [GitHub Pages](https://github.com/miha-pavel/hillel_django_girls)
+This site locate [GitHub Pages](https://github.com/miha-pavel/hillel_students_tracker)
 
 
 ## Before first launch
