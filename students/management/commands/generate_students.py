@@ -14,7 +14,7 @@ class Command(BaseCommand):
             self.style.SUCCESS(
                 f'''Successfully create 100 random student
                 First student data:
-                full name - \t{first_created_student.first_name} {first_created_student.last_name}
+                full name - \t{first_created_student.last_name} {first_created_student.first_name}
                 birth date - \t{first_created_student.birth_date}
                 E-mail - \t{first_created_student.email}
                 phone - \t{first_created_student.phone}
@@ -23,7 +23,7 @@ class Command(BaseCommand):
                 .
                 .
                 Last student data:
-                full name - \t{last_created_student.first_name} {last_created_student.last_name}
+                full name - \t{last_created_student.last_name} {last_created_student.first_name}
                 birth date - \t{last_created_student.birth_date}
                 E-mail - \t{last_created_student.email}
                 phone - \t{last_created_student.phone}
