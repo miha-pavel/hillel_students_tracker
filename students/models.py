@@ -22,11 +22,22 @@ class Student(models.Model):
 
     @classmethod
     def generate_student(cls):
-        student = cls(
-            first_name=fake.first_name(),
-            last_name=fake.last_name(),
-            birth_date=fake.simple_profile(sex=None).get('birthdate'),
-            email=fake.simple_profile(sex=None).get('mail'),
-            phone=fake.phone_number()
-        )
-        student.save()
+        return cls(
+                    first_name=fake.first_name(),
+                    last_name=fake.last_name(),
+                    birth_date=fake.simple_profile(sex=None).get('birthdate'),
+                    email=fake.simple_profile(sex=None).get('mail'),
+                    phone=fake.phone_number(),
+                    address=fake.simple_profile(sex=None).get('address')
+                )
+    
+    @classmethod
+    def create_student(cls):
+        cls.generate_student().save()
+    
+    @classmethod
+    def generate_students(cls):
+        i = 1
+        while i <= 100:
+            cls.create_student()
+            i += 1
