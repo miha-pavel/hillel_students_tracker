@@ -30,11 +30,11 @@ class Student(models.Model):
                     phone=fake.phone_number(),
                     address=fake.simple_profile(sex=None).get('address')
                 )
-    
+
     @classmethod
     def create_student(cls):
         cls.generate_student().save()
-    
+
     @classmethod
     def generate_students(cls):
         i = 1
