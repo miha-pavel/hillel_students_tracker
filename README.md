@@ -1,5 +1,5 @@
 # hillel_django_students_tracker
-Studying django students tracker
+Studying django students tracker.
 
 This project supposed to run on `python3`
 
