@@ -61,8 +61,6 @@ class Group(models.Model):
 
     number = models.CharField(max_length=10, unique=True)
     created_year = models.IntegerField(choices=YEAR_CHOICES, default=datetime.datetime.now().year)
-    #TODO: Create ForeignKey to Teacher
-    curator = models.CharField(max_length=100)
     department = models.CharField(max_length=3, choices=DEPARTMENT, default='E')
     specialty_number = models.PositiveSmallIntegerField()
     specialty_name = models.CharField(max_length=255)
@@ -74,10 +72,6 @@ class Group(models.Model):
     standard_deviation_rating = models.DecimalField(max_digits=5, decimal_places=2)
     mode_rating = models.DecimalField(max_digits=5, decimal_places=2)
     median_rating = models.DecimalField(max_digits=5, decimal_places=2)
-    #TODO: Create ForeignKey to Student
-    best_student = models.CharField(max_length=100)
-    #TODO: Create ForeignKey to Student
-    worst_student = models.CharField(max_length=100)
 
     class Meta:
         verbose_name = "Group"
