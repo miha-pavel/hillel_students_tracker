@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block body %}
+  {% block header %}{% endblock %}
+  {% block content %}
+    <div class="post">
+      <h1>Teacher Data</h1>
+      <div class="date">
+        <ul>
+          <li>First name: {{ teacher.first_name }}</li>
+          <li>Last name: {{ teacher.last_name }}</li>
+          <li>Birth date: {{ teacher.birth_date }}</li>
+          <li>E-mail: {{ teacher.email }}</li>
+          <li>Phone: {{ teacher.phone }}</li>
+        </ul>
+      </div>
+    </div>
+  {% endblock %}
+  {% block footer %}{% endblock %}
+{% endblock %}

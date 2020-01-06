@@ -5,10 +5,7 @@ from django.db import models
 from faker import Faker
 
 
-fake = Faker()
-
-
-class Student(models.Model):
+class Person(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     birth_date = models.DateField()
@@ -18,8 +15,7 @@ class Student(models.Model):
     address = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
-        verbose_name = "Student"
-        verbose_name_plural = "Students"
+        abstract = True
 
     def __str__(self):
         return f'{self.last_name} {self.first_name}'
@@ -28,19 +24,26 @@ class Student(models.Model):
         return f'{self.first_name} {self.last_name} {self.birth_date}'
 
     @classmethod
-    def generate_student(cls):
+    def generate_person(cls):
+        fake = Faker()
         return cls(
                     first_name=fake.first_name(),
                     last_name=fake.last_name(),
                     birth_date=fake.simple_profile(sex=None).get('birthdate'),
-                    email=fake.simple_profile(sex=None).get('mail'),
+                    email=fake.email(),
                     phone=fake.phone_number(),
                     address=fake.simple_profile(sex=None).get('address')
                 )
 
     @classmethod
-    def create_student(cls):
-        cls.generate_student().save()
+    def create_person(cls):
+        cls.generate_person().save()
+
+
+class Student(Person):
+    class Meta:
+        verbose_name = "Student"
+        verbose_name_plural = "Students"
 
 
 class Group(models.Model):

@@ -4,7 +4,7 @@ from .models import Student
 
 
 def get_student(request):
-    Student.create_student()
+    Student.create_person()
     return render(request, 'student_data.html', {'student': Student.objects.last()})
 
 

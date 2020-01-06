@@ -1,0 +1,16 @@
+{% extends "students/templates/base.html" %}
+
+{% block body %}
+    {% block header %}{% endblock %}
+    {% block content %}
+        <h1>Teachers List</h1>
+        <form action="/teachers/teachers/" method="get">
+            <input name="first_name">
+            <input name="submit" type="submit">
+        </form>
+        <div>
+            {{teachers_list|safe}}
+        </div>
+    {% endblock %}
+    {% block footer %}{% endblock %}
+{% endblock %}

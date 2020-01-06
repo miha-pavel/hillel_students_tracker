@@ -15,7 +15,7 @@ class Command(BaseCommand):
         count = int(options.get('count') or 100)
         i = 1
         while i <= count:
-            Student.create_student()
+            Student.create_person()
             i += 1
         last_created_student = Student.objects.last()
         first_created_student = Student.objects.get(pk=last_created_student.pk-count-1)
