@@ -3,13 +3,13 @@
 {% block body %}
     {% block header %}{% endblock %}
     {% block content %}
-        <h1>Teachers List</h1>
-        <form action="/teachers/teachers/" method="get">
-            <input name="query_str">
+        <h1>{{ person_type|capfirst }} List</h1>
+        <form action="/{{ persons_type }}/{{ persons_type }}/" method="get">
+            <input name="first_name">
             <input name="submit" type="submit">
         </form>
         <div>
-            {{teachers_list|safe}}
+            {{persons_list|safe}}
         </div>
     {% endblock %}
     {% block footer %}{% endblock %}

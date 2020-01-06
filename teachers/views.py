@@ -6,7 +6,11 @@ from .models import Teacher
 
 def get_teacher(request):
     Teacher.create_person()
-    return render(request, 'teacher_data.html', {'teacher': Teacher.objects.last()})
+    return render(
+        request,
+        'person_data.html',
+        context={'person_type': 'teacher', 'person': Teacher.objects.last()}
+        )
 
 
 def get_teachers(request):
@@ -23,6 +27,6 @@ def get_teachers(request):
         response += teacher.get_info()+'<br>'
     return render(
         request,
-        'teachers_list.html',
-        context={'teachers_list': response}
+        'persons_list.html',
+        context={'person_type': 'teachers', 'persons_list': response}
         )

@@ -5,7 +5,11 @@ from .models import Student
 
 def get_student(request):
     Student.create_person()
-    return render(request, 'student_data.html', {'student': Student.objects.last()})
+    return render(
+        request,
+        'person_data.html',
+        context={'person_type': 'student', 'person': Student.objects.last()}
+        )
 
 
 def get_students(request):
@@ -32,6 +36,6 @@ def get_students(request):
     
     return render(
         request,
-        'students_list.html',
-        context={'students_list': response}
+        'persons_list.html',
+        context={'person_type': 'students', 'persons_list': response}
         )
