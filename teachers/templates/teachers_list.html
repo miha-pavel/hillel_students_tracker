@@ -1,11 +1,11 @@
-{% extends "students/templates/base.html" %}
+{% extends "base.html" %}
 
 {% block body %}
     {% block header %}{% endblock %}
     {% block content %}
         <h1>Teachers List</h1>
         <form action="/teachers/teachers/" method="get">
-            <input name="first_name">
+            <input name="query_str">
             <input name="submit" type="submit">
         </form>
         <div>

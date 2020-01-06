@@ -9,7 +9,6 @@ def get_student(request):
 
 
 def get_students(request):
-    print('request.GET: ', request.GET)
     queryset = Student.objects.all()
     response = ''
     fn = request.GET.get('first_name')
@@ -31,6 +30,8 @@ def get_students(request):
         response += student.get_info()+'<br>'
     print('queryset: ', queryset.query)
     
-    return render(request,
-                'students_list.html',
-                context={'students_list': response})
+    return render(
+        request,
+        'students_list.html',
+        context={'students_list': response}
+        )
