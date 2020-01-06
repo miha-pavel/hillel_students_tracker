@@ -42,13 +42,6 @@ class Student(models.Model):
     def create_student(cls):
         cls.generate_student().save()
 
-    @classmethod
-    def generate_students(cls):
-        i = 1
-        while i <= 100:
-            cls.create_student()
-            i += 1
-
 
 class Group(models.Model):
     DEPARTMENT = (

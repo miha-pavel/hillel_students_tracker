@@ -5,14 +5,23 @@ from students.models import Student
 
 class Command(BaseCommand):
     help = 'Generates 100 random student'
-    
+
+    def add_arguments(self, parser):
+        # Named (optional) arguments
+        parser.add_argument('--count',
+                            help='Count students')
+
     def handle(self, *args, **options):
-        Student.generate_students()
+        count = int(options.get('count') or 100)
+        i = 1
+        while i <= count:
+            Student.create_student()
+            i += 1
         last_created_student = Student.objects.last()
-        first_created_student = Student.objects.get(pk=last_created_student.pk-99)
+        first_created_student = Student.objects.get(pk=last_created_student.pk-count-1)
         self.stdout.write(
             self.style.SUCCESS(
-                f'''Successfully create 100 random student
+                f'''Successfully create {count} random student
                 First student data:
                 full name - \t{first_created_student.last_name} {first_created_student.first_name}
                 birth date - \t{first_created_student.birth_date}
