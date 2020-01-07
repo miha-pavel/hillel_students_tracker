@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.db.models import Q
 
-
 from .models import Student
+
+
+def home_page(request):
+    return render(request, 'base.html')
 
 
 def get_student(request):

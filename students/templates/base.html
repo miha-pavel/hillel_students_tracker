@@ -6,6 +6,10 @@
     </head>
     <body>
         <div>
+        <a href="{% url 'get_students' %}">Go to students list</a>
+        <a href="{% url 'get_student' %}">Go to random student data</a></br>
+        <a href="{% url 'get_teachers' %}">Go to teachers list</a>
+        <a href="{% url 'get_teacher' %}">Go to random teacher data</a>
             {% block content %}
             {% endblock %}
         </div>

@@ -4,7 +4,7 @@
     {% block header %}{% endblock %}
     {% block content %}
         <h1>{{ persons_type|capfirst }} List</h1>
-        <form action="/{{ persons_type }}/{{ persons_type }}/" method="get">
+        <form method="get">
             <input name="query_str">
             <input name="submit" type="submit">
         </form>
