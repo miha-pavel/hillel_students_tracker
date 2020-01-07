@@ -28,5 +28,5 @@ def get_teachers(request):
     return render(
         request,
         'persons_list.html',
-        context={'person_type': 'teachers', 'persons_list': response}
+        context={'persons_type': 'teachers', 'persons_list': response}
         )

@@ -1,4 +1,5 @@
 import datetime
+from random import randrange
 
 from django.db import models
 
@@ -55,19 +56,19 @@ class Group(models.Model):
     )
     YEAR_CHOICES = [(r, r) for r in range(1980, datetime.date.today().year+1)]
 
-    number = models.CharField(max_length=10, unique=True)
+    number = models.PositiveSmallIntegerField()
     created_year = models.IntegerField(choices=YEAR_CHOICES, default=datetime.datetime.now().year)
     department = models.CharField(max_length=3, choices=DEPARTMENT, default='E')
-    specialty_number = models.PositiveSmallIntegerField()
-    specialty_name = models.CharField(max_length=255)
+    specialty_number = models.PositiveSmallIntegerField(default=141)
+    specialty_name = models.CharField(max_length=255, default='electrition')
     #Statistic
-    skipped_classes = models.PositiveSmallIntegerField()
-    min_rating = models.PositiveSmallIntegerField()
-    max_rating = models.PositiveSmallIntegerField()
-    average_rating = models.DecimalField(max_digits=5, decimal_places=2)
-    standard_deviation_rating = models.DecimalField(max_digits=5, decimal_places=2)
-    mode_rating = models.DecimalField(max_digits=5, decimal_places=2)
-    median_rating = models.DecimalField(max_digits=5, decimal_places=2)
+    skipped_classes = models.PositiveSmallIntegerField(blank=True, null=True)
+    min_rating = models.PositiveSmallIntegerField(blank=True, null=True)
+    max_rating = models.PositiveSmallIntegerField(blank=True, null=True)
+    average_rating = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    standard_deviation_rating = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    mode_rating = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    median_rating = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
 
     class Meta:
         verbose_name = "Group"
@@ -75,3 +76,15 @@ class Group(models.Model):
 
     def __str__(self):
         return f'{self.number}'
+
+    @classmethod
+    def generate_group(cls):
+        return cls(
+            number=int(f'{randrange(1, 10)}{randrange(1, 6)}{randrange(1, 10)}'),
+            )
+
+    @classmethod
+    def create_group(cls):
+        generated_group = cls.generate_group()
+        if not Group.objects.filter(number=generated_group.number).exists():
+            cls.generate_group().save()
