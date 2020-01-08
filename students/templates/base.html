@@ -6,10 +6,17 @@
     </head>
     <body>
         <div>
+        <p>Students data</p>
+        <a href="{% url 'get_student' %}">Go to random student data</a>
         <a href="{% url 'get_students' %}">Go to students list</a>
-        <a href="{% url 'get_student' %}">Go to random student data</a></br>
-        <a href="{% url 'get_teachers' %}">Go to teachers list</a>
+        </br>
+        <p>Groups data</p>
+        <a href="{% url 'get_group' %}">Go to random group data</a>
+        <a href="{% url 'get_groups' %}">Go to groups list</a>
+        </br>
+        <p>Teachers data</p>
         <a href="{% url 'get_teacher' %}">Go to random teacher data</a>
+        <a href="{% url 'get_teachers' %}">Go to teachers list</a>
             {% block content %}
             {% endblock %}
         </div>

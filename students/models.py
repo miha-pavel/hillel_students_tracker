@@ -1,4 +1,4 @@
-import datetime
+from datetime import date, datetime
 from random import randrange
 
 from django.db import models
@@ -54,10 +54,10 @@ class Group(models.Model):
         ('BT', 'Bridges and tunnels'),
         ('IT', 'Information Technology'),
     )
-    YEAR_CHOICES = [(r, r) for r in range(1980, datetime.date.today().year+1)]
+    YEAR_CHOICES = [(r, r) for r in range(1980, date.today().year+1)]
 
     number = models.PositiveSmallIntegerField()
-    created_year = models.IntegerField(choices=YEAR_CHOICES, default=datetime.datetime.now().year)
+    created_year = models.IntegerField(choices=YEAR_CHOICES, default=datetime.now().year)
     department = models.CharField(max_length=3, choices=DEPARTMENT, default='E')
     specialty_number = models.PositiveSmallIntegerField(default=141)
     specialty_name = models.CharField(max_length=255, default='electrition')
@@ -75,6 +75,9 @@ class Group(models.Model):
         verbose_name_plural = "Groups"
 
     def __str__(self):
+        return f'{self.number}'
+
+    def get_info(self):
         return f'{self.number}'
 
     @classmethod
