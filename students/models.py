@@ -12,8 +12,9 @@ class Person(models.Model):
     last_name = models.CharField(max_length=20)
     birth_date = models.DateField()
     email = models.EmailField()
-    # add avatar TODO
-    phone = models.CharField(max_length=16) #clean phone TODO
+    # TODO: add avatar
+    # TODO: clean phone
+    phone = models.CharField(max_length=16)
     address = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
@@ -41,7 +42,7 @@ class Person(models.Model):
     def create_person(cls):
         cls.generate_person().save()
 
-    @classmethod 
+    @classmethod
     def persons_filter(cls, queryset, query_str):
         if query_str:
             return queryset.filter(
@@ -71,7 +72,7 @@ class Group(models.Model):
     department = models.CharField(max_length=3, choices=DEPARTMENT, default='E')
     specialty_number = models.PositiveSmallIntegerField(default=141)
     specialty_name = models.CharField(max_length=255, default='electrition')
-    #Statistic
+    # Statistic
     skipped_classes = models.PositiveSmallIntegerField(blank=True, null=True)
     min_rating = models.PositiveSmallIntegerField(blank=True, null=True)
     max_rating = models.PositiveSmallIntegerField(blank=True, null=True)
