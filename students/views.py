@@ -50,10 +50,10 @@ def students_add(request):
         form = StudentsAddForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/students/')
     else:
         form = StudentsAddForm()
-    return render(request, 'students_add.html', context={"form": form})
+    return render(request, 'persons_add.html', context={"form": form})
 
 
 def get_group(request):
