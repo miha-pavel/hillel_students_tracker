@@ -2,6 +2,7 @@ from datetime import date, datetime
 from random import randrange
 
 from django.db import models
+from django.db.models import Q
 
 from faker import Faker
 
@@ -39,6 +40,15 @@ class Person(models.Model):
     @classmethod
     def create_person(cls):
         cls.generate_person().save()
+
+    @classmethod 
+    def persons_filter(cls, queryset, query_str):
+        if query_str:
+            return queryset.filter(
+                Q(first_name__contains=query_str)
+                | Q(last_name__contains=query_str)
+                | Q(email__contains=query_str)
+            )
 
 
 class Student(Person):
