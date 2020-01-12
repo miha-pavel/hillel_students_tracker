@@ -47,7 +47,7 @@ def get_students(request):
         )
 
 
-def students_add(request):
+def student_add(request):
     if request.method == "POST":
         form = StudentsAddForm(request.POST)
         if form.is_valid():
@@ -58,7 +58,7 @@ def students_add(request):
     return render(request, 'student_add.html', context={"form": form})
 
 
-def students_edit(request, pk):
+def student_edit(request, pk):
     try:
         student = Student.objects.get(id=pk) #get_object_or_404
     except Student.DoesNotExist:
@@ -105,12 +105,12 @@ def get_groups(request):
         response += queryset_item.get_info()+'<br>'
     return render(
         request,
-        'tracker_list.html',
-        context={'tracker_type': 'Groups', 'tracker_list': response}
+        'groups_list.html',
+        context={'groups_list': response}
         )
 
 
-def groups_add(request):
+def group_add(request):
     if request.method == "POST":
         form = GroupsAddForm(request.POST)
         if form.is_valid():
@@ -118,10 +118,10 @@ def groups_add(request):
             return HttpResponseRedirect(reverse('get_groups'))
     else:
         form = GroupsAddForm()
-    return render(request, 'groups_add.html', context={"form": form})
+    return render(request, 'group_add.html', context={"form": form})
 
 
-def groups_edit(request, pk):
+def group_edit(request, pk):
     try:
         group = Group.objects.get(id=pk) # get_object_or_404
     except Group.DoesNotExist:
