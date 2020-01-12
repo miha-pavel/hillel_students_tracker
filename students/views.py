@@ -1,8 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound
+from django.urls import reverse
+
 
 from .models import Student, Group
-from .forms import StudentsAddForm, GroupsAddForm
+from .forms import StudentsAddForm, GroupsAddForm, ContactForm
 
 
 def home_page(request):
@@ -50,11 +52,37 @@ def students_add(request):
         form = StudentsAddForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/students/')
+            return HttpResponseRedirect(reverse('get_students'))
     else:
         form = StudentsAddForm()
     return render(request, 'persons_add.html', context={"form": form})
 
+
+def students_edit(request, pk):
+    try:
+        student = Student.objects.get(id=pk) #get_object_or_404
+    except Student.DoesNotExist:
+        return HttpResponseNotFound(f'Student with {pk} not found')
+
+    if request.method == "POST":
+        form = StudentsAddForm(request.POST, instance=student)# чтобы понимать кого редактировать
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('get_students'))
+    else:
+        form = StudentsAddForm(instance=student) #чтобы понимать кого взять для редактирования
+
+    return render(request, 'persons_edit.html', context={"form": form, "pk": pk})
+
+def contact(request):
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('get_students'))
+    else:
+        form = ContactForm()
+    return render(request, 'contact.html', context={"form": form})
 
 def get_group(request):
     Group.create_group()
@@ -85,7 +113,7 @@ def groups_add(request):
         form = GroupsAddForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/groups/')
+            return HttpResponseRedirect(reverse('get_groups'))
     else:
         form = GroupsAddForm()
     return render(request, 'groups_add.html', context={"form": form})

@@ -4,9 +4,11 @@ from . import views
 
 urlpatterns = [
     path('', views.home_page, name='home_page'),
-    path('student/', views.get_student, name='get_student'),
-    path('students/', views.get_students, name='get_students'),
-    path('students/add', views.students_add, name='students_add'),
+    path('gen/', views.get_student, name='get_student'),
+    path('list/', views.get_students, name='get_students'),
+    path('add/', views.students_add, name='students_add'),
+    path('edit/<int:pk>/', views.students_edit, name='students_edit'),
+    path('contact/', views.contact, name='contact'),
     path('group/', views.get_group, name='get_group'),
     path('groups/', views.get_groups, name='get_groups'),
     path('groups/add', views.groups_add, name='groups_add'),

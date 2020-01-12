@@ -6,7 +6,7 @@
         <div>
             ADD GROUP
         </div>
-        <form method="post">
+        <form action="{% url 'groups_add' %}"method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <input name="submit" type="submit">
