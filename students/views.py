@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 
 from .models import Student, Group
-from .forms import StudentsAddForm
+from .forms import StudentsAddForm, GroupsAddForm
 
 
 def home_page(request):
@@ -50,10 +50,10 @@ def students_add(request):
         form = StudentsAddForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/students/')
     else:
         form = StudentsAddForm()
-    return render(request, 'students_add.html', context={"form": form})
+    return render(request, 'persons_add.html', context={"form": form})
 
 
 def get_group(request):
@@ -78,3 +78,14 @@ def get_groups(request):
         'tracker_list.html',
         context={'tracker_type': 'Groups', 'tracker_list': response}
         )
+
+
+def groups_add(request):
+    if request.method == "POST":
+        form = GroupsAddForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/groups/')
+    else:
+        form = GroupsAddForm()
+    return render(request, 'groups_add.html', context={"form": form})

@@ -1,4 +1,3 @@
-import self as self
 from django.core.management.base import BaseCommand
 
 from students.models import Student, Group

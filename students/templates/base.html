@@ -14,10 +14,12 @@
         <p>Groups data</p>
         <a href="{% url 'get_group' %}">Go to random group data</a>
         <a href="{% url 'get_groups' %}">Go to groups list</a>
+        <a href="{% url 'groups_add' %}">Go to Add groups</a>
         </br>
         <p>Teachers data</p>
         <a href="{% url 'get_teacher' %}">Go to random teacher data</a>
         <a href="{% url 'get_teachers' %}">Go to teachers list</a>
+        <a href="{% url 'teachers_add' %}">Go to Add teachers</a>
             {% block content %}
             {% endblock %}
         </div>

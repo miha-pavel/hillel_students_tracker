@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 
 from .models import Teacher
+from .forms import TeachersAddForm
 
 
 def get_teacher(request):
@@ -25,3 +27,14 @@ def get_teachers(request):
         'tracker_list.html',
         context={'tracker_type': 'teacher', 'tracker_list': response}
         )
+
+
+def teachers_add(request):
+    if request.method == "POST":
+        form = TeachersAddForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/teachers/')
+    else:
+        form = TeachersAddForm()
+    return render(request, 'persons_add.html', context={"form": form})
