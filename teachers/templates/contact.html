@@ -4,9 +4,10 @@
     {% block header %}{% endblock %}
     {% block content %}
         <div>
-            ADD GROUP
+            CONTACT
         </div>
-        <form action="{% url 'groups_add' %}" method="post">
+        <form action="{% url 'contact' %}" method="post">
+        {% comment %} <form method="post"> {% endcomment %}
             {% csrf_token %}
             {{ form.as_p }}
             <input name="submit" type="submit">

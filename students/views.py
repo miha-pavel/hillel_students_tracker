@@ -15,8 +15,8 @@ def get_student(request):
     Student.create_person()
     return render(
         request,
-        'person_data.html',
-        context={'person_type': 'student', 'person': Student.objects.last()}
+        'student_data.html',
+        context={'student': Student.objects.last()}
         )
 
 
@@ -42,8 +42,8 @@ def get_students(request):
     # print('queryset: ', queryset.query)
     return render(
         request,
-        'tracker_list.html',
-        context={'tracker_type': 'student', 'tracker_list': response}
+        'students_list.html',
+        context={'student_list': response}
         )
 
 
@@ -55,7 +55,7 @@ def students_add(request):
             return HttpResponseRedirect(reverse('get_students'))
     else:
         form = StudentsAddForm()
-    return render(request, 'persons_add.html', context={"form": form})
+    return render(request, 'student_add.html', context={"form": form})
 
 
 def students_edit(request, pk):
@@ -72,7 +72,8 @@ def students_edit(request, pk):
     else:
         form = StudentsAddForm(instance=student) #чтобы понимать кого взять для редактирования
 
-    return render(request, 'persons_edit.html', context={"form": form, "pk": pk})
+    return render(request, 'student_edit.html', context={"form": form, "pk": pk})
+
 
 def contact(request):
     if request.method == "POST":
@@ -83,6 +84,7 @@ def contact(request):
     else:
         form = ContactForm()
     return render(request, 'contact.html', context={"form": form})
+
 
 def get_group(request):
     Group.create_group()
@@ -117,3 +119,20 @@ def groups_add(request):
     else:
         form = GroupsAddForm()
     return render(request, 'groups_add.html', context={"form": form})
+
+
+def groups_edit(request, pk):
+    try:
+        group = Group.objects.get(id=pk) # get_object_or_404
+    except Group.DoesNotExist:
+        return HttpResponseNotFound(f'Group with {pk} not found')
+
+    if request.method == "POST":
+        form = GroupsAddForm(request.POST, instance=group) # чтобы понимать кого редактировать
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('get_Groups'))
+    else:
+        form = GroupsAddForm(instance=group) # понимать кого взять для редактирования
+
+    return render(request, 'group_edit.html', context={"form": form, "pk": pk})

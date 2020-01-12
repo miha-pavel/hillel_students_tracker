@@ -3,14 +3,14 @@
 {% block body %}
     {% block header %}{% endblock %}
     {% block content %}
-        <div>
-            ADD GROUP
-        </div>
-        <form action="{% url 'groups_add' %}" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
+        <h1>STUDENTS List</h1>
+        <form action="{% url 'get_students' %}" method="get">
+            <input name="query_str">
             <input name="submit" type="submit">
         </form>
+        <div>
+            {{student_list|safe}}
+        </div>
     {% endblock %}
     {% block footer %}{% endblock %}
 {% endblock %}

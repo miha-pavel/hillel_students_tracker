@@ -11,5 +11,6 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('group/', views.get_group, name='get_group'),
     path('groups/', views.get_groups, name='get_groups'),
-    path('groups/add', views.groups_add, name='groups_add'),
+    path('groups_add/', views.groups_add, name='groups_add'),
+    path('groups_edit/<int:pk>/', views.groups_edit, name='groups_edit'),
 ]
