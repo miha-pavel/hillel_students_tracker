@@ -20,11 +20,10 @@ def get_student(request):
 
 
 def get_students(request):
-    queryset = Student.objects.all()
-    response = ''
+    students_list = Student.objects.all()
     query_str = request.GET.get('query_str')
     if query_str:
-        queryset = Student.persons_filter(Student.objects.all(), query_str)
+        students_list = Student.persons_filter(Student.objects.all(), query_str)
         # __endswith LIKE %{}
         # queryset = queryset.filter(first_name__endswith=fn)
         # __startswith LIKE {}%
@@ -36,13 +35,11 @@ def get_students(request):
         # queryset = queryset.filter(first_name__iendswith=fn)
         # __startswith ILIKE {}%
         # queryset = queryset.filter(first_name__istartswith=fn)
-    for queryset_item in queryset:
-        response += queryset_item.get_info()+'<br>'
     # print('queryset: ', queryset.query)
     return render(
         request,
         'students_list.html',
-        context={'student_list': response}
+        context={'students_list': students_list}
         )
 
 
@@ -91,17 +88,14 @@ def get_group(request):
 
 
 def get_groups(request):
-    queryset = Group.objects.all()
-    response = ''
+    groups_list = Group.objects.all()
     query_str = request.GET.get('query_str')
     if query_str:
-        queryset = queryset.filter(number__startswith=query_str)
-    for queryset_item in queryset:
-        response += queryset_item.get_info()+'<br>'
+        groups_list = groups_list.filter(number__startswith=query_str)
     return render(
         request,
         'groups_list.html',
-        context={'groups_list': response}
+        context={'groups_list': groups_list}
         )
 
 

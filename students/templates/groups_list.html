@@ -8,9 +8,13 @@
             <input name="query_str">
             <input name="submit" type="submit">
         </form>
-        <div>
-            {{groups_list|safe}}
-        </div>
+        {% for group in groups_list %}
+            <div>
+                <a href="{% url 'group_edit' pk=group.id %}">
+                    {{ group.number }}
+                </a>
+            </div>
+        {% endfor %}
     {% endblock %}
     {% block footer %}{% endblock %}
 {% endblock %}

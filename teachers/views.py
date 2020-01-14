@@ -16,17 +16,14 @@ def get_teacher(request):
 
 
 def get_teachers(request):
-    queryset = Teacher.objects.all()
-    response = ''
+    teachers_list = Teacher.objects.all()
     query_str = request.GET.get('query_str')
     if query_str:
-        queryset = Teacher.persons_filter(Teacher.objects.all(), query_str)
-    for queryset_item in queryset:
-        response += queryset_item.get_info()+'<br>'
+        teachers_list = Teacher.persons_filter(Teacher.objects.all(), query_str)
     return render(
         request,
         'teachers_list.html',
-        context={'teachers_list': response}
+        context={'teachers_list': teachers_list}
         )
 
 

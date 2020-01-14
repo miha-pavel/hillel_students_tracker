@@ -8,9 +8,13 @@
             <input name="query_str">
             <input name="submit" type="submit">
         </form>
-        <div>
-            {{teachers_list|safe}}
-        </div>
+        {% for teacher in teachers_list %}
+            <div>
+                <a href="{% url 'teacher_edit' pk=teacher.id %}">
+                    {{ teacher.first_name }} {{ teacher.last_name }} {{ teacher.birth_date }}
+                </a>
+            </div>
+        {% endfor %}
     {% endblock %}
     {% block footer %}{% endblock %}
 {% endblock %}
