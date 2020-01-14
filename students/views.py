@@ -1,7 +1,6 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponseNotFound
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
 from django.urls import reverse
-
 
 from .models import Student, Group
 from .forms import StudentsAddForm, GroupsAddForm, ContactForm
@@ -59,19 +58,15 @@ def student_add(request):
 
 
 def student_edit(request, pk):
-    try:
-        student = Student.objects.get(id=pk) #get_object_or_404
-    except Student.DoesNotExist:
-        return HttpResponseNotFound(f'Student with {pk} not found')
+    student = get_object_or_404(Student, id=pk)
 
     if request.method == "POST":
-        form = StudentsAddForm(request.POST, instance=student)# чтобы понимать кого редактировать
+        form = StudentsAddForm(request.POST, instance=student)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('get_students'))
     else:
-        form = StudentsAddForm(instance=student) #чтобы понимать кого взять для редактирования
-
+        form = StudentsAddForm(instance=student)
     return render(request, 'student_edit.html', context={"form": form, "pk": pk})
 
 
@@ -122,17 +117,14 @@ def group_add(request):
 
 
 def group_edit(request, pk):
-    try:
-        group = Group.objects.get(id=pk) # get_object_or_404
-    except Group.DoesNotExist:
-        return HttpResponseNotFound(f'Group with {pk} not found')
+    group = get_object_or_404(Group, id=pk)
 
     if request.method == "POST":
-        form = GroupsAddForm(request.POST, instance=group) # чтобы понимать кого редактировать
+        form = GroupsAddForm(request.POST, instance=group)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('get_Groups'))
+            return HttpResponseRedirect(reverse('get_groups'))
     else:
-        form = GroupsAddForm(instance=group) # понимать кого взять для редактирования
+        form = GroupsAddForm(instance=group)
 
     return render(request, 'group_edit.html', context={"form": form, "pk": pk})

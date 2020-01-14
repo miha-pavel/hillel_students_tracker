@@ -6,7 +6,7 @@
         <div>
             EDIT GROUP
         </div>
-        <form action="{% url 'groups_edit' pk %}"method="post">
+        <form action="{% url 'group_edit' pk %}"method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <input name="submit" type="submit">
