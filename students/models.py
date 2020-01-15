@@ -4,6 +4,7 @@ from random import randrange
 from django.db import models
 from django.db.models import Q
 
+from .fields import JSONField
 from faker import Faker
 
 
@@ -102,3 +103,15 @@ class Group(models.Model):
         generated_group = cls.generate_group()
         if not Group.objects.filter(number=generated_group.number).exists():
             cls.generate_group().save()
+
+
+class Message(models.Model):
+    email = models.EmailField()
+    message = JSONField()
+
+    class Meta:
+        verbose_name = "Message"
+        verbose_name_plural = "Messages"
+
+    def __str__(self):
+        return f'{self.email}'
