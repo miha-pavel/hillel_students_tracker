@@ -33,11 +33,11 @@ class ContactForm(Form):
 
     def save(self):
         data = self.cleaned_data
-        email = data.get("email")
+        subject = data['subject']
+        message = data['text']
+        email_from = data['email']
+        recipient_list = [settings.EMAIL_HOST_USER]
+        send_mail(subject, message, email_from, recipient_list)
+
         data = json.dumps(data)
-        Message.objects.create(email=email, message=data)
-        # subject = data['subject']
-        # message = data['text']
-        # email_from = data['email']
-        # recipient_list = [settings.EMAIL_HOST_USER]
-        # send_mail(subject, message, email_from, recipient_list)
+        Message.objects.create(email=email_from, message=data)
