@@ -1,11 +1,13 @@
-import json
+import json, datetime
 
+from django.core.files import File
 from django.forms import ModelForm, Form
 from django.core.mail import send_mail
 from django.conf import settings
 from django import forms
 
 from .models import Student, Group, Message
+import io
 
 
 class StudentsAddForm(ModelForm):
@@ -37,7 +39,10 @@ class ContactForm(Form):
         message = data['text']
         email_from = data['email']
         recipient_list = [settings.EMAIL_HOST_USER]
-        send_mail(subject, message, email_from, recipient_list)
-
+        # send_mail(subject, message, email_from, recipient_list)
+        
+        fname = f'{datetime.datetime.now()}.txt'
+        in_memory_file = io.StringIO(str(data))
+        message_file = File(in_memory_file, name=fname)
         data = json.dumps(data)
-        Message.objects.create(email=email_from, message=data)
+        Message.objects.create(email=email_from, message=data, message_file=message_file)

@@ -108,6 +108,7 @@ class Group(models.Model):
 class Message(models.Model):
     email = models.EmailField()
     message = JSONField()
+    message_file = models.FileField(blank=True, null=True, upload_to='messages/')
 
     class Meta:
         verbose_name = "Message"
@@ -115,3 +116,8 @@ class Message(models.Model):
 
     def __str__(self):
         return f'{self.email}'
+
+        # def save(self, *args, **kwargs):
+        #     #Generate a new license file overwriting any previous version
+        #     #and update file path
+        #     super(Message, self).save(*args, **kwargs)
