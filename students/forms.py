@@ -38,7 +38,7 @@ class ContactForm(Form):
         message = data['text']
         email_from = data['email']
         recipient_list = [settings.EMAIL_HOST_USER]
-        send_mail(subject, message, email_from, recipient_list)        
+        send_mail(subject, message, email_from, recipient_list)
         fname = f'{datetime.datetime.now()}.txt'
         in_memory_file = io.StringIO(str(data))
         message_file = File(in_memory_file, name=fname)
