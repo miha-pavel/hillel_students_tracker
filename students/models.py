@@ -116,8 +116,3 @@ class Message(models.Model):
 
     def __str__(self):
         return f'{self.email}'
-
-        # def save(self, *args, **kwargs):
-        #     #Generate a new license file overwriting any previous version
-        #     #and update file path
-        #     super(Message, self).save(*args, **kwargs)
