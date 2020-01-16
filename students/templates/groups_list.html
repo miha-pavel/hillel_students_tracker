@@ -8,7 +8,7 @@
             <input name="query_str">
             <input name="submit" type="submit">
         </form>
-        {% for group in groups_list %}
+        {% for group in groups %}
             <div>
                 <a href="{% url 'group_edit' pk=group.id %}">
                     {{ group.number }}

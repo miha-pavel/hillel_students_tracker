@@ -16,14 +16,14 @@ def get_teacher(request):
 
 
 def get_teachers(request):
-    teachers_list = Teacher.objects.all()
+    teachers = Teacher.objects.all()
     query_str = request.GET.get('query_str')
     if query_str:
-        teachers_list = Teacher.persons_filter(Teacher.objects.all(), query_str)
+        teachers = Teacher.persons_filter(Teacher.objects.all(), query_str)
     return render(
         request,
         'teachers_list.html',
-        context={'teachers_list': teachers_list}
+        context={'teachers': teachers}
         )
 
 

@@ -8,7 +8,7 @@
             <input name="query_str">
             <input name="submit" type="submit">
         </form>
-        {% for teacher in teachers_list %}
+        {% for teacher in teachers %}
             <div>
                 <a href="{% url 'teacher_edit' pk=teacher.id %}">
                     {{ teacher.first_name }} {{ teacher.last_name }} {{ teacher.birth_date }}
