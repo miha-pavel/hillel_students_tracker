@@ -6,13 +6,14 @@
     {% block header %}{% endblock %}
     {% block content %}
         <div class="post">
-            <h1>GROUP DATA</h1>
+            <h1>STUDENT DATA</h1>
             <div class="date">
                 <ul>
-                    <li>Number: {{ group.number }}</li>
-                    <li>Createdyear: {{ group.created_year }}</li>
-                    <li>Department: {{ group.department }}</li>
-                    <li>Specialty name: {{ group.specialty_name }}</li>
+                    <li>First name: {{ student.first_name }}</li>
+                    <li>Last name: {{ student.last_name }}</li>
+                    <li>Birth date: {{ student.birth_date }}</li>
+                    <li>E-mail: {{ student.email }}</li>
+                    <li>Phone: {{ student.phone }}</li>
                 </ul>
             </div>
         </div>

@@ -4,9 +4,9 @@
     {% block header %}{% endblock %}
     {% block content %}
         <div>
-            ADD GROUP
+            EDIT GROUP
         </div>
-        <form action="{% url 'groups_add' %}"method="post">
+        <form action="{% url 'group_edit' pk %}"method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <input name="submit" type="submit">

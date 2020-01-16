@@ -4,9 +4,9 @@
     {% block header %}{% endblock %}
     {% block content %}
         <div>
-            CONTACT
+            EDIT TEACHER
         </div>
-        <form action="{% url 'contact' %}" method="post">
+        <form action="{% url 'teacher_edit' pk%}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <input name="submit" type="submit">

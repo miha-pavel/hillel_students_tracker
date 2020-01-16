@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
@@ -10,32 +10,42 @@ def get_teacher(request):
     Teacher.create_person()
     return render(
         request,
-        'person_data.html',
-        context={'person_type': 'teacher', 'person': Teacher.objects.last()}
+        'teacher_data.html',
+        context={'teacher': Teacher.objects.last()}
         )
 
 
 def get_teachers(request):
-    queryset = Teacher.objects.all()
-    response = ''
+    teachers_list = Teacher.objects.all()
     query_str = request.GET.get('query_str')
     if query_str:
-        queryset = Teacher.persons_filter(Teacher.objects.all(), query_str)
-    for queryset_item in queryset:
-        response += queryset_item.get_info()+'<br>'
+        teachers_list = Teacher.persons_filter(Teacher.objects.all(), query_str)
     return render(
         request,
-        'tracker_list.html',
-        context={'tracker_type': 'teacher', 'tracker_list': response}
+        'teachers_list.html',
+        context={'teachers_list': teachers_list}
         )
 
 
-def teachers_add(request):
+def teacher_add(request):
     if request.method == "POST":
         form = TeachersAddForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/teachers/')
+            return HttpResponseRedirect(reverse('get_teachers'))
     else:
         form = TeachersAddForm()
-    return render(request, 'persons_add.html', context={"form": form})
+    return render(request, 'teacher_add.html', context={"form": form})
+
+
+def teacher_edit(request, pk):
+    teacher = get_object_or_404(Teacher, id=pk)
+    if request.method == "POST":
+        form = TeachersAddForm(request.POST, instance=teacher)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('get_teachers'))
+    else:
+        form = TeachersAddForm(instance=teacher)
+
+    return render(request, 'teacher_edit.html', context={"form": form, "pk": pk})
