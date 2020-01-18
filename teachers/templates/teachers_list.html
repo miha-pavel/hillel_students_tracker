@@ -1,20 +1,18 @@
 {% extends "base.html" %}
 
-{% block body %}
-    {% block header %}{% endblock %}
-    {% block content %}
-        <h1>TEACHERS LIST</h1>
-        <form action="{% url 'get_teachers' %}" method="get">
-            <input name="query_str">
-            <input name="submit" type="submit">
-        </form>
-        {% for teacher in teachers %}
-            <div>
-                <a href="{% url 'teacher_edit' pk=teacher.id %}">
-                    {{ teacher.id }} {{ teacher.email }} {{ teacher.last_name }}
-                </a>
-            </div>
-        {% endfor %}
-    {% endblock %}
-    {% block footer %}{% endblock %}
+{% block title %}TEACHERS LIST{% endblock %}
+
+{% block content %}
+    <h1>TEACHERS LIST</h1>
+    <form action="{% url 'get_teachers' %}" method="get">
+        <input name="query_str">
+        <input name="submit" type="submit">
+    </form>
+    {% for teacher in teachers %}
+        <div>
+            <a href="{% url 'teacher_edit' pk=teacher.id %}">
+                {{ teacher.id }} {{ teacher.email }} {{ teacher.last_name }}
+            </a>
+        </div>
+    {% endfor %}
 {% endblock %}

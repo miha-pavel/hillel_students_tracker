@@ -1,23 +1,14 @@
 {% extends "base.html" %}
 
-{% block body %}
-  <div class="wrapper">
-    <div class="overlay"></div>
-    {% block header %}{% endblock %}
-    {% block content %}
-        <div class="post">
-            <h1>STUDENT DATA</h1>
-            <div class="date">
-                <ul>
-                    <li>First name: {{ student.first_name }}</li>
-                    <li>Last name: {{ student.last_name }}</li>
-                    <li>Birth date: {{ student.birth_date }}</li>
-                    <li>E-mail: {{ student.email }}</li>
-                    <li>Phone: {{ student.phone }}</li>
-                </ul>
-            </div>
-        </div>
-    {% endblock %}
-  </div>
-  {% block footer %}{% endblock %}
+{% block title %}STUDENT DATA{% endblock %}
+
+{% block content %}
+  <h1>STUDENT DATA</h1>
+  <ul>
+      <li>First name: {{ student.first_name }}</li>
+      <li>Last name: {{ student.last_name }}</li>
+      <li>Birth date: {{ student.birth_date }}</li>
+      <li>E-mail: {{ student.email }}</li>
+      <li>Phone: {{ student.phone }}</li>
+  </ul>
 {% endblock %}

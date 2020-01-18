@@ -1,16 +1,12 @@
 {% extends "base.html" %}
 
-{% block body %}
-    {% block header %}{% endblock %}
-    {% block content %}
-        <div>
-            ADD TEACHER
-        </div>
-        <form action="{% url 'teacher_add' %}" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input name="submit" type="submit">
-        </form>
-    {% endblock %}
-    {% block footer %}{% endblock %}
+{% block title %}ADD TEACHER{% endblock %}
+
+{% block content %}
+    <h1>ADD TEACHER</h1>
+    <form action="{% url 'teacher_add' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input name="submit" type="submit">
+    </form>
 {% endblock %}
