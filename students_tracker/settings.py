@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'debug_toolbar',
     'django_extensions',
 
     'students',
@@ -52,6 +53,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'students_tracker.urls'
@@ -137,6 +140,9 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'miha_pavel@gmail.com'
 EMAIL_HOST_PASSWORD = 'miha5580'
 
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
 
 try:
     from local_settings import *

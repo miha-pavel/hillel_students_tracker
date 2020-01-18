@@ -10,8 +10,8 @@
         </form>
         {% for student in students %}
             <div>
-                <a href="{% url 'student_edit' pk=student.id %}">
-                    {{ student.first_name }} {{ student.last_name }} {{ student.birth_date }}
+                <a href="{% url 'student_edit' student.id %}">
+                    {{ student.id }} {{ student.email }} {{ student.last_name }}
                 </a>
             </div>
         {% endfor %}
