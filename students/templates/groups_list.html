@@ -7,11 +7,18 @@
         <input name="query_str">
         <input name="submit" type="submit">
     </form>
-    {% for group in groups %}
-        <div>
-            <a href="{% url 'group_edit' pk=group.id %}">
-                {{ group.number }}
-            </a>
-        </div>
-    {% endfor %}
+    <table>
+        <tr>
+            <th>Group number</th>
+            <th>Action</th>
+        </tr>
+        {% for group in groups %}
+            <tr>
+                <td>{{ group.number }}</td>
+                <td>
+                    <a href="{% url 'group_edit' group.id %}">Edit</a></br>
+                    <a href="{% url 'group_delete' group.id %}">Delete</a>
+                </td>
+        {% endfor %}
+    </table>
 {% endblock %}

@@ -49,3 +49,9 @@ def teacher_edit(request, pk):
         form = TeachersAddForm(instance=teacher)
 
     return render(request, 'teacher_edit.html', context={"form": form, "pk": pk})
+
+
+def teacher_delete(request, pk):
+    teacher = get_object_or_404(Teacher, id=pk)
+    teacher.delete()
+    return HttpResponseRedirect(reverse('get_teachers'))
