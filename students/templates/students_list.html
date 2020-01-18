@@ -8,11 +8,21 @@
         <input name="query_str">
         <input name="submit" type="submit">
     </form>
-    {% for student in students %}
-        <div>
-            <a href="{% url 'student_edit' student.id %}">
-                {{ student.id }} {{ student.email }} {{ student.last_name }}
-            </a>
-        </div>
-    {% endfor %}
+        <table style="width:100%">
+            <tr>
+                <th>Student id</th>
+                <th>Student email</th>
+                <th>Student last_name</th>
+                <th>Action</th>
+            </tr>
+            {% for student in students %}
+                <tr>
+                    <td>{{ student.id }}</td>
+                    <td>{{ student.email }}</td>
+                    <td>{{ student.last_name }}</td>
+                    <td>
+                        <a href="{% url 'student_edit' student.id %}">Edit</a>
+                    </td>
+            {% endfor %}
+        </table>
 {% endblock %}
