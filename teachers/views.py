@@ -16,10 +16,10 @@ def get_teacher(request):
 
 @render_to('teachers_list.html')
 def get_teachers(request):
-    teachers = Teacher.objects.all()
+    teachers = Teacher.objects.all().order_by('-id')
     query_str = request.GET.get('query_str')
     if query_str:
-        teachers = Teacher.persons_filter(Teacher.objects.all(), query_str)
+        teachers = Teacher.persons_filter(teachers, query_str)
     return {'teachers': teachers}
 
 

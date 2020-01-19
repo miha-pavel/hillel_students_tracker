@@ -20,10 +20,10 @@ def get_student(request):
 
 @render_to('students_list.html')
 def get_students(request):
-    students = Student.objects.all()
+    students = Student.objects.all().order_by('-id')
     query_str = request.GET.get('query_str')
     if query_str:
-        students = Student.persons_filter(Student.objects.all(), query_str)
+        students = Student.persons_filter(students, query_str)
         # __endswith LIKE %{}
         # queryset = queryset.filter(first_name__endswith=fn)
         # __startswith LIKE {}%
@@ -90,7 +90,7 @@ def get_group(request):
 
 @render_to('groups_list.html')
 def get_groups(request):
-    groups = Group.objects.all()
+    groups = Group.objects.all().order_by('name')
     query_str = request.GET.get('query_str')
     if query_str:
         groups = groups.filter(number__startswith=query_str)
