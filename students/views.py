@@ -67,6 +67,12 @@ def student_edit(request, pk):
     return render(request, 'student_edit.html', context={"form": form, "pk": pk})
 
 
+def student_delete(request, pk):
+    student = get_object_or_404(Student, id=pk)
+    student.delete()
+    return HttpResponseRedirect(reverse('get_students'))
+
+
 def contact(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
@@ -122,3 +128,9 @@ def group_edit(request, pk):
         form = GroupsAddForm(instance=group)
 
     return render(request, 'group_edit.html', context={"form": form, "pk": pk})
+
+
+def group_delete(request, pk):
+    group = get_object_or_404(Group, id=pk)
+    group.delete()
+    return HttpResponseRedirect(reverse('get_groups'))

@@ -1,20 +1,24 @@
 {% extends "base.html" %}
 
-{% block body %}
-    {% block header %}{% endblock %}
-    {% block content %}
-        <h1>GROUP LIST</h1>
-        <form action="{% url 'get_groups' %}"method="get">
-            <input name="query_str">
-            <input name="submit" type="submit">
-        </form>
+{% block title %}GROUPS LIST{% endblock %}
+{% block content %}
+    <h1>GROUPS LIST</h1>
+    <form action="{% url 'get_groups' %}"method="get">
+        <input name="query_str">
+        <input name="submit" type="submit">
+    </form>
+    <table>
+        <tr>
+            <th>Group number</th>
+            <th>Action</th>
+        </tr>
         {% for group in groups %}
-            <div>
-                <a href="{% url 'group_edit' pk=group.id %}">
-                    {{ group.number }}
-                </a>
-            </div>
+            <tr>
+                <td>{{ group.number }}</td>
+                <td>
+                    <a href="{% url 'group_edit' group.id %}">Edit</a></br>
+                    <a href="{% url 'group_delete' group.id %}">Delete</a>
+                </td>
         {% endfor %}
-    {% endblock %}
-    {% block footer %}{% endblock %}
+    </table>
 {% endblock %}

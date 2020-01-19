@@ -2,7 +2,9 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-        <title>Django Students tracker</title>
+        <title>
+            {% block title %}{% endblock %}
+        </title>
     </head>
     <body>
         <table style="width:100%">
@@ -22,11 +24,11 @@
                 <td><a href="{% url 'get_teachers' %}">Go to teachers list</a></td>
             </tr>
             <tr>
-                <td><a href="{% url 'student_add' %}">Go to Add students</a></td>
-                <td><a href="{% url 'group_add' %}">Go to Add groups</a></td>
-                <td><a href="{% url 'teacher_add' %}">Go to Add teachers</a></td>
+                <td><a href="{% url 'student_add' %}">Go to add student</a></td>
+                <td><a href="{% url 'group_add' %}">Go to add group</a></td>
+                <td><a href="{% url 'teacher_add' %}">Go to add teacher</a></td>
             </tr>
-            </table>
+        </table>
             <p>
                 ---------------------------------------------------------------------
             </p>

@@ -1,16 +1,11 @@
 {% extends "base.html" %}
 
-{% block body %}
-    {% block header %}{% endblock %}
-    {% block content %}
-        <div>
-            CONTACT
-        </div>
-        <form action="{% url 'contact' %}" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input name="submit" type="submit">
-        </form>
-    {% endblock %}
-    {% block footer %}{% endblock %}
+{% block title %}CONTACT{% endblock %}
+{% block content %}
+    <h1>CONTACT</h1>
+    <form action="{% url 'contact' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input name="submit" type="submit">
+    </form>
 {% endblock %}
