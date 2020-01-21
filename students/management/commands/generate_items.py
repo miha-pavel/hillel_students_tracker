@@ -1,3 +1,5 @@
+import random
+
 from django.core.management.base import BaseCommand
 
 from students.models import Student, Group
@@ -11,18 +13,20 @@ class Command(BaseCommand):
         parser.add_argument('--count',
                             help='Count of items')
         parser.add_argument('--should_create',
-                            help='Command should create "students" or "teachers" or "groups"')
+                            help='Command should create "students" or "teachers"')
 
     def handle(self, *args, **options):
         count = int(options.get('count') or 100)
         should_create = options.get('should_create') or 'students'
+        groups = [Group.create_group() for i in range(10)]
         for i in range(count):
             if should_create == 'students':
-                Student.create_person()
+                student = Student.generate_person()
+                student.group = random.choice(groups)
             elif should_create == 'teachers':
-                Teacher.create_person()
-            elif should_create == 'groups':
-                Group.create_group()
+                teacher = Teacher.generate_person()
+                teacher.group = random.choice(groups)
+
         self.stdout.write(
             self.style.SUCCESS(
                 f'''Successfully created {count} random {should_create}'''
