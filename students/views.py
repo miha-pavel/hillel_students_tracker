@@ -14,7 +14,7 @@ def home_page(request):
 
 @render_to('student_data.html')
 def get_student(request):
-    Student.create_person()
+    Student.generate_person()
     return {'student': Student.objects.last()}
 
 
@@ -37,6 +37,7 @@ def get_students(request):
         # queryset = queryset.filter(first_name__istartswith=fn)
     # print('queryset: ', queryset.query)
     return {'students': students}
+
 
 @render_to('student_add.html')
 def student_add(request):
@@ -90,7 +91,7 @@ def get_group(request):
 
 @render_to('groups_list.html')
 def get_groups(request):
-    groups = Group.objects.all().order_by('name')
+    groups = Group.objects.all().order_by('number')
     query_str = request.GET.get('query_str')
     if query_str:
         groups = groups.filter(number__startswith=query_str)

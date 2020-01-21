@@ -29,13 +29,10 @@ class Student(models.Model):
     def __str__(self):
         return f'{self.last_name} {self.first_name}'
 
-    def get_info(self):
-        return f'{self.first_name} {self.last_name} {self.birth_date}'
-
     @classmethod
     def generate_person(cls):
         fake = Faker()
-        return cls(
+        cls.student = cls(
                     first_name=fake.first_name(),
                     last_name=fake.last_name(),
                     birth_date=fake.simple_profile(sex=None).get('birthdate'),
@@ -43,10 +40,7 @@ class Student(models.Model):
                     phone=fake.phone_number(),
                     address=fake.simple_profile(sex=None).get('address')
                 )
-
-    @classmethod
-    def create_person(cls):
-        cls.generate_person().save()
+        cls.student.save()
 
     @classmethod
     def persons_filter(cls, queryset, query_str):
@@ -93,9 +87,6 @@ class Group(models.Model):
         verbose_name_plural = "Groups"
 
     def __str__(self):
-        return f'{self.number}'
-
-    def get_info(self):
         return f'{self.number}'
 
     @classmethod

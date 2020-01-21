@@ -39,14 +39,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    # 'students_tracker.middleware.QueryDurationMiddleware',
 ]
 
 if DEBUG:
-    INSTALLED_APPS = INSTALLED_APPS + ['debug_toolbar', 'django_extensions']
-    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware',
-    'students_tracker.middleware.QueryDurationMiddleware'] + MIDDLEWARE
+    INSTALLED_APPS = INSTALLED_APPS + [
+        'debug_toolbar',
+        'django_extensions',
+        ]
+    MIDDLEWARE = MIDDLEWARE + [
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+        'students_tracker.middleware.QueryDurationMiddleware',
+        ]
     INTERNAL_IPS = ['127.0.0.1']
 
 
@@ -136,9 +139,6 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'miha_pavel@gmail.com'
 EMAIL_HOST_PASSWORD = 'miha5580'
 
-# INTERNAL_IPS = [
-#     '127.0.0.1',
-# ]
 
 try:
     from local_settings import *
