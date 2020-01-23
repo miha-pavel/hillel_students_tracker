@@ -5,16 +5,12 @@ from faker import Faker
 
 
 class Teacher(models.Model):
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
     birth_date = models.DateField()
     email = models.EmailField()
-    phone = models.CharField(max_length=16)
+    phone = models.CharField(max_length=30)
     address = models.CharField(max_length=255, null=True, blank=True)
-    group = models.ForeignKey(
-        'students.Group',
-        null=True, blank=True,
-        on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "Teacher"
@@ -26,7 +22,7 @@ class Teacher(models.Model):
     @classmethod
     def generate_person(cls):
         fake = Faker()
-        cls.student = cls(
+        cls.teacher = cls(
                     first_name=fake.first_name(),
                     last_name=fake.last_name(),
                     birth_date=fake.simple_profile(sex=None).get('birthdate'),
@@ -34,7 +30,8 @@ class Teacher(models.Model):
                     phone=fake.phone_number(),
                     address=fake.simple_profile(sex=None).get('address')
                 )
-        cls.student.save()
+        cls.teacher.save()
+        return cls.teacher
 
     @classmethod
     def persons_filter(cls, queryset, query_str):

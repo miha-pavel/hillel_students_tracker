@@ -11,11 +11,11 @@ from teachers.models import Teacher
 
 
 class Student(models.Model):
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
     birth_date = models.DateField()
     email = models.EmailField()
-    phone = models.CharField(max_length=16)
+    phone = models.CharField(max_length=30)
     address = models.CharField(max_length=255, null=True, blank=True)
     group = models.ForeignKey(
         'students.Group',
@@ -41,6 +41,7 @@ class Student(models.Model):
                     address=fake.simple_profile(sex=None).get('address')
                 )
         cls.student.save()
+        return cls.student
 
     @classmethod
     def persons_filter(cls, queryset, query_str):
@@ -90,16 +91,10 @@ class Group(models.Model):
         return f'{self.number}'
 
     @classmethod
-    def generate_group(cls):
-        return cls(
-            number=int(f'{randrange(1, 10)}{randrange(1, 6)}{randrange(1, 10)}'),
-            )
-
-    @classmethod
     def create_group(cls):
-        generated_group = cls.generate_group()
-        if not Group.objects.filter(number=generated_group.number).exists():
-            cls.generate_group().save()
+        number = int(f'{randrange(1, 10)}{randrange(1, 6)}{randrange(1, 10)}')
+        group, _ = Group.objects.get_or_create(number=number)
+        return group
 
 
 class Message(models.Model):
