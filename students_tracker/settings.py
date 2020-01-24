@@ -39,14 +39,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    # 'students_tracker.middleware.QueryDurationMiddleware',
 ]
 
 if DEBUG:
-    INSTALLED_APPS = INSTALLED_APPS + ['debug_toolbar', 'django_extensions']
-    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware',
-    'students_tracker.middleware.QueryDurationMiddleware'] + MIDDLEWARE
+    INSTALLED_APPS = INSTALLED_APPS + [
+        'debug_toolbar',
+        'django_extensions',
+        ]
+    MIDDLEWARE = MIDDLEWARE + [
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+        'students_tracker.middleware.QueryDurationMiddleware',
+        ]
     INTERNAL_IPS = ['127.0.0.1']
 
 
@@ -74,12 +77,15 @@ WSGI_APPLICATION = 'students_tracker.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        'NAME': 'hillel',
+        "USER": "postgres",
+        "PASSWORD": "test_password",
+        "PORT": "5432",
+        "HOST": "localhost",
+    },
 }
 
 
@@ -125,17 +131,6 @@ MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
 
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'miha_pavel@gmail.com'
-EMAIL_HOST_PASSWORD = 'miha5580'
-
-# INTERNAL_IPS = [
-#     '127.0.0.1',
-# ]
 
 try:
     from local_settings import *

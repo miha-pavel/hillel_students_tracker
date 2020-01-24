@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+from annoying.decorators import render_to
+
 from .models import Student, Group
 from .forms import StudentsAddForm, GroupsAddForm, ContactForm
 
@@ -10,20 +12,18 @@ def home_page(request):
     return render(request, 'base.html')
 
 
+@render_to('student_data.html')
 def get_student(request):
-    Student.create_person()
-    return render(
-        request,
-        'student_data.html',
-        context={'student': Student.objects.last()}
-        )
+    Student.generate_person()
+    return {'student': Student.objects.last()}
 
 
+@render_to('students_list.html')
 def get_students(request):
-    students = Student.objects.all()
+    students = Student.objects.all().order_by('-id')
     query_str = request.GET.get('query_str')
     if query_str:
-        students = Student.persons_filter(Student.objects.all(), query_str)
+        students = Student.persons_filter(students, query_str)
         # __endswith LIKE %{}
         # queryset = queryset.filter(first_name__endswith=fn)
         # __startswith LIKE {}%
@@ -36,13 +36,10 @@ def get_students(request):
         # __startswith ILIKE {}%
         # queryset = queryset.filter(first_name__istartswith=fn)
     # print('queryset: ', queryset.query)
-    return render(
-        request,
-        'students_list.html',
-        context={'students': students}
-        )
+    return {'students': students}
 
 
+@render_to('student_add.html')
 def student_add(request):
     if request.method == "POST":
         form = StudentsAddForm(request.POST)
@@ -51,9 +48,10 @@ def student_add(request):
             return HttpResponseRedirect(reverse('get_students'))
     else:
         form = StudentsAddForm()
-    return render(request, 'student_add.html', context={"form": form})
+    return {"form": form}
 
 
+@render_to('student_edit.html')
 def student_edit(request, pk):
     student = get_object_or_404(Student, id=pk)
 
@@ -64,7 +62,7 @@ def student_edit(request, pk):
             return HttpResponseRedirect(reverse('get_students'))
     else:
         form = StudentsAddForm(instance=student)
-    return render(request, 'student_edit.html', context={"form": form, "pk": pk})
+    return {"form": form, "pk": pk}
 
 
 def student_delete(request, pk):
@@ -73,6 +71,7 @@ def student_delete(request, pk):
     return HttpResponseRedirect(reverse('get_students'))
 
 
+@render_to('contact.html')
 def contact(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
@@ -81,30 +80,25 @@ def contact(request):
             return HttpResponseRedirect(reverse('get_students'))
     else:
         form = ContactForm()
-    return render(request, 'contact.html', context={"form": form})
+    return {"form": form}
 
 
+@render_to('group_data.html')
 def get_group(request):
     Group.create_group()
-    return render(
-        request,
-        'group_data.html',
-        context={'group': Group.objects.last()}
-        )
+    return {'group': Group.objects.last()}
 
 
+@render_to('groups_list.html')
 def get_groups(request):
-    groups = Group.objects.all()
+    groups = Group.objects.all().order_by('number')
     query_str = request.GET.get('query_str')
     if query_str:
         groups = groups.filter(number__startswith=query_str)
-    return render(
-        request,
-        'groups_list.html',
-        context={'groups': groups}
-        )
+    return {'groups': groups}
 
 
+@render_to('group_add.html')
 def group_add(request):
     if request.method == "POST":
         form = GroupsAddForm(request.POST)
@@ -113,9 +107,10 @@ def group_add(request):
             return HttpResponseRedirect(reverse('get_groups'))
     else:
         form = GroupsAddForm()
-    return render(request, 'group_add.html', context={"form": form})
+    return {"form": form}
 
 
+@render_to('group_edit.html')
 def group_edit(request, pk):
     group = get_object_or_404(Group, id=pk)
 
@@ -126,8 +121,7 @@ def group_edit(request, pk):
             return HttpResponseRedirect(reverse('get_groups'))
     else:
         form = GroupsAddForm(instance=group)
-
-    return render(request, 'group_edit.html', context={"form": form, "pk": pk})
+    return {"form": form, "pk": pk}
 
 
 def group_delete(request, pk):

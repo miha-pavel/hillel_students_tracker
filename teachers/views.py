@@ -1,32 +1,29 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+
+from annoying.decorators import render_to
 
 from .models import Teacher
 from .forms import TeachersAddForm
 
 
+@render_to('teacher_data.html')
 def get_teacher(request):
-    Teacher.create_person()
-    return render(
-        request,
-        'teacher_data.html',
-        context={'teacher': Teacher.objects.last()}
-        )
+    Teacher.generate_person()
+    return {'teacher': Teacher.objects.last()}
 
 
+@render_to('teachers_list.html')
 def get_teachers(request):
-    teachers = Teacher.objects.all()
+    teachers = Teacher.objects.all().order_by('-id')
     query_str = request.GET.get('query_str')
     if query_str:
-        teachers = Teacher.persons_filter(Teacher.objects.all(), query_str)
-    return render(
-        request,
-        'teachers_list.html',
-        context={'teachers': teachers}
-        )
+        teachers = Teacher.persons_filter(teachers, query_str)
+    return {'teachers': teachers}
 
 
+@render_to('teacher_add.html')
 def teacher_add(request):
     if request.method == "POST":
         form = TeachersAddForm(request.POST)
@@ -35,9 +32,10 @@ def teacher_add(request):
             return HttpResponseRedirect(reverse('get_teachers'))
     else:
         form = TeachersAddForm()
-    return render(request, 'teacher_add.html', context={"form": form})
+    return {"form": form}
 
 
+@render_to('teacher_edit.html')
 def teacher_edit(request, pk):
     teacher = get_object_or_404(Teacher, id=pk)
     if request.method == "POST":
@@ -47,8 +45,7 @@ def teacher_edit(request, pk):
             return HttpResponseRedirect(reverse('get_teachers'))
     else:
         form = TeachersAddForm(instance=teacher)
-
-    return render(request, 'teacher_edit.html', context={"form": form, "pk": pk})
+    return {"form": form, "pk": pk}
 
 
 def teacher_delete(request, pk):

@@ -1,4 +1,4 @@
-import json 
+import json
 import datetime
 import io
 
@@ -25,7 +25,9 @@ class GroupsAddForm(ModelForm):
             'created_year',
             'department',
             'specialty_number',
-            'specialty_name'
+            'specialty_name',
+            'head_student',
+            'head_teacher'
         ]
 
 

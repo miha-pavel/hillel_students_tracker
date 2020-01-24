@@ -10,11 +10,15 @@
     <table>
         <tr>
             <th>Group number</th>
+            <th>Group head teacher</th>
+            <th>Group head student</th>
             <th>Action</th>
         </tr>
         {% for group in groups %}
             <tr>
                 <td>{{ group.number }}</td>
+                <td>{{ group.head_teacher }}</td>
+                <td>{{ group.head_student }}</td>
                 <td>
                     <a href="{% url 'group_edit' group.id %}">Edit</a></br>
                     <a href="{% url 'group_delete' group.id %}">Delete</a>
