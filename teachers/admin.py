@@ -14,7 +14,10 @@ class TeacherAdmin(admin.ModelAdmin):
             'fields': ('email', 'phone'),
         }),
     )
-    list_display = ('first_name', 'last_name', 'email')
+    readonly_fields = ('email', 'phone')
+
+    list_display = ('id', 'first_name', 'last_name', 'email')
     list_display_links = ('last_name',)
+    
     list_per_page = 20
     search_fields = ['^last_name']

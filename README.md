@@ -32,6 +32,11 @@ Or use makefile guide
 * ```make sh_p``` - will run django shell_plus
 * ```make migrate``` - will run django "./manage.py migrate" command
 
+## Default super user
+* Username: admin
+* Email address: admin@admin.com
+* Password: admin
+
 
 ### Домашнее задание 4
 Добавлено: 29.12.2019 14:33
