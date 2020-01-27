@@ -15,7 +15,7 @@ class Student(models.Model):
     last_name = models.CharField(max_length=30)
     birth_date = models.DateField()
     email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=30)
+    phone = models.CharField(max_length=30, unique=True)
     address = models.CharField(max_length=255, null=True, blank=True)
     group = models.ForeignKey(
         'students.Group',
@@ -32,12 +32,6 @@ class Student(models.Model):
     @property
     def full_name(self):
         return f'{self.last_name} {self.first_name}'
-
-    # def save(self, *args, **kwargs):
-    #     # pre_save
-    #     self.email = self.email.lower()
-    #     super().save(*args, **kwargs)
-    #     # post_save
 
     @classmethod
     def generate_person(cls):
@@ -64,22 +58,18 @@ class Student(models.Model):
 
 
 class Group(models.Model):
-    DEPARTMENT = (
-        ('E', 'Electrification'),
-        ('M', 'Mechanics'),
-        ('BT', 'Bridges and tunnels'),
-        ('IT', 'Information Technology'),
-    )
+    LIST_DEPARTMENT = ['Electrification', 'Mechanics', 'Bridges and tunnels', 'Information Technology']
+    DEPARTMENT = [(i, dep) for i, dep in enumerate(LIST_DEPARTMENT)]
+
     YEAR_CHOICES = [(r, r) for r in range(1980, date.today().year+1)]
 
     number = models.PositiveSmallIntegerField()
-    created_year = models.IntegerField(
+    created_year = models.PositiveSmallIntegerField(
         choices=YEAR_CHOICES,
         default=datetime.now().year)
-    department = models.CharField(
-        max_length=3,
+    department = models.PositiveSmallIntegerField(
         choices=DEPARTMENT,
-        default='E')
+        default=0)
     specialty_number = models.PositiveSmallIntegerField(default=141)
     specialty_name = models.CharField(max_length=255, default='electrition')
     head_student = models.ForeignKey(
