@@ -1,12 +1,7 @@
 from django.contrib import admin
 
 from .models import (Student, Group)
-
-
-class GroupInline(admin.TabularInline):
-    model = Group
-    classes = ['collapse']
-    extra = 1
+from .forms import StudentAdminForm
 
 
 class StudentInline(admin.TabularInline):
@@ -20,28 +15,14 @@ class StudentInline(admin.TabularInline):
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    fieldsets = (
-        (None, {
-            'fields': (('first_name', 'last_name'), 'birth_date', 'address', 'group')
-        }),
-        ('Connection', {
-            'classes': ('collapse',),
-            'fields': ('email', 'phone'),
-        }),
-    )
-
-    readonly_fields = ('email',)
     list_select_related = ('group',)
 
-    list_display = ('id', 'first_name', 'last_name', 'email')
+    list_display = ('group', 'first_name', 'last_name', 'email')
     list_display_links = ('last_name',)
 
     list_per_page = 20
-    search_fields = ['^last_name']
-
-    inlines = [
-        GroupInline,
-    ]
+    search_fields = ['^group__number']
+    form = StudentAdminForm
 
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = super().get_readonly_fields(request, obj)
@@ -51,16 +32,6 @@ class StudentAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
-
-    def get_inline_instances(self, request, obj=None):
-        return [inline(self.model, self.admin_site) for inline in self.inlines]
-
-    def get_formsets_with_inlines(self, request, obj=None):
-        for inline in self.get_inline_instances(request, obj):
-            # hide MyInline in the add view
-            if isinstance(inline, GroupInline) and obj is None:
-                continue
-            yield inline.get_formset(request, obj), inline
 
 
 @admin.register(Group)

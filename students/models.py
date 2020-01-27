@@ -14,7 +14,7 @@ class Student(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     birth_date = models.DateField()
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     phone = models.CharField(max_length=30)
     address = models.CharField(max_length=255, null=True, blank=True)
     group = models.ForeignKey(
@@ -32,6 +32,12 @@ class Student(models.Model):
     @property
     def full_name(self):
         return f'{self.last_name} {self.first_name}'
+
+    # def save(self, *args, **kwargs):
+    #     # pre_save
+    #     self.email = self.email.lower()
+    #     super().save(*args, **kwargs)
+    #     # post_save
 
     @classmethod
     def generate_person(cls):
@@ -114,3 +120,6 @@ class Message(models.Model):
 
     def __str__(self):
         return f'{self.email}'
+
+
+import students.signals # TODO: move to apps
