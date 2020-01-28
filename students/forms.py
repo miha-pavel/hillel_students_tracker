@@ -13,11 +13,11 @@ from .models import Student, Group, Message
 
 
 class BaseStudentForm(ModelForm):
-    phone_validator = RegexValidator(
-        r'^\?1?\d{9,15}$',
-        "This value may contain only number!"
-        "Phone number must be entered in the format: '999999999'!")
-    phone_number = forms.IntegerField(validators=[phone_validator])
+    # phone_validator = RegexValidator(
+    #     r'^\?1?\d{9,15}$',
+    #     "This value may contain only number!"
+    #     "Phone number must be entered in the format: '999999999'!")
+    # phone = forms.IntegerField(validators=[phone_validator])
 
     def clean_email(self):
         email = self.cleaned_data['email'].lower() # то что пришло с формы
@@ -46,14 +46,15 @@ class BaseStudentForm(ModelForm):
 class StudentsAddForm(BaseStudentForm):
     class Meta:
         model = Student
-        fields = ('id', 'first_name', 'last_name', 'birth_date', 'email', 'group')
+        # fields = ('id', 'first_name', 'last_name', 'birth_date', 'email', 'group', 'phone')
+        fields = "__all__"
 
 
 class StudentAdminForm(BaseStudentForm):
     class Meta:
         model = Student
-        fields = ('id', 'first_name', 'last_name', 'birth_date', 'email', 'group')
-
+        # fields = ('id', 'first_name', 'last_name', 'birth_date', 'email', 'group')
+        fields = "__all__"
 
 class GroupsAddForm(ModelForm):
     class Meta:
