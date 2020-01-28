@@ -23,8 +23,8 @@ class Teacher(models.Model):
     def generate_person(cls):
         fake = Faker()
         cls.teacher = cls(
-                    first_name=fake.first_name(),
-                    last_name=fake.last_name(),
+                    first_name=fake.first_name().title(),
+                    last_name=fake.last_name().title(),
                     birth_date=fake.simple_profile(sex=None).get('birthdate'),
                     email=fake.email(),
                     phone=int(''.join([n for n in fake.phone_number() if n.isdigit()])),

@@ -11,7 +11,8 @@ class TeachersAddForm(BaseStudentForm):
         fields = ('id', 'first_name', 'last_name', 'birth_date', 'email')
 
     def clean_email(self):
-        email = self.cleaned_data['email'].lower() # то что пришло с формы
+        # то что пришло с формы
+        email = self.cleaned_data['email'].lower()
         # filter(email=email) -> filter(email__exact=email)
         # email должен быть регистронезависимым ->email__iexact
         email_exists = Teacher.objects\

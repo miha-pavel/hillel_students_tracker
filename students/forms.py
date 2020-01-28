@@ -30,6 +30,14 @@ class BaseStudentForm(ModelForm):
             raise ValidationError(f'{email} is already used!')
         return email
 
+    def clean_first_name(self):
+        first_name = self.cleaned_data['first_name'].title()
+        return first_name
+
+    def clean_last_name(self):
+        last_name = self.cleaned_data['last_name'].title()
+        return last_name
+
 
 class StudentsAddForm(BaseStudentForm):
     class Meta:
