@@ -38,6 +38,10 @@ class BaseStudentForm(ModelForm):
         last_name = self.cleaned_data['last_name'].title()
         return last_name
 
+    def clean_phone(self):
+        phone = int(''.join([n for n in self.cleaned_data['phone'] if n.isdigit()]))
+        return phone
+
 
 class StudentsAddForm(BaseStudentForm):
     class Meta:
