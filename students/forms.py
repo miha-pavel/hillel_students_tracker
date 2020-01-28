@@ -44,6 +44,7 @@ class BaseStudentForm(ModelForm):
 
 
 class StudentsAddForm(BaseStudentForm):
+
     class Meta:
         model = Student
         # fields = ('id', 'first_name', 'last_name', 'birth_date', 'email', 'group', 'phone')

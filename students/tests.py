@@ -1,36 +1,39 @@
-import inspect
+# coding=utf-8
 import json
-import time
-import unittest
-import requests
-from datetime import datetime
+import datetime
 
-from django.conf import settings
-from django.http import QueryDict
-from django.test import TestCase
 from django.urls import reverse
+from django.test import TestCase
+from django.test.client import Client
 
+from faker import Faker
+
+from students.models import Student, Group
+
+
+fake = Faker()
 
 
 class CommonTest(TestCase):
     """ This test checking next test cases:
     1. Check render home page
+    2. Check render contact page
     """
 
-    def test_visit_home_page(self, empty=True):
-        """ Check render home page
+    def test_visit_home_page(self):
+        """ 1. Check render home page
 
-        :param empty:
+        :param:
         :return:
         """
         url = reverse('home_page')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
-    def test_visit_contact_page(self, empty=True):
-        """ Check render contact page
+    def test_visit_contact_page(self):
+        """ 2. Check render contact page
 
-        :param empty:
+        :param:
         :return:
         """
         url = reverse('contact')
@@ -40,69 +43,112 @@ class CommonTest(TestCase):
 
 class StudentTest(TestCase):
     """ This test checking next test cases:
-    1. Check render home page
+    1. Check render random student page
+    2. Check render students list page
+    3. Check render add student page
     """
-    
-    def test_visit_get_random_student_page(self, empty=True):
-        """ Check render random student page
 
-        :param empty:
+    @classmethod
+    def setUpClass(cls):
+        super(StudentTest, cls).setUpClass()
+        cls.client = Client()
+        Student.objects.create(
+            first_name='Test_first_name',
+            last_name='Test_last_name',
+            birth_date=fake.simple_profile(sex=None).get('birthdate'),
+            email=fake.email(),
+            phone=int(''.join([n for n in fake.phone_number() if n.isdigit()])),
+            address=fake.simple_profile(sex=None).get('address'))
+        Group.objects.create(number=111)
+        cls.post_data = {
+            'first_name': 'New_first_name',
+            'last_name': 'New_last_name',
+            'birth_date': datetime.date.today(),
+            'email': 'New_email@gmail.com',
+            'group': Group.objects.last().id,
+            'phone': '2562374527'
+            }
+    
+    def test_visit_get_random_student_page(self):
+        """ 1. Check render random student page
+
+        :param:
         :return:
         """
         url = reverse('get_student')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
     
-    def test_visit_get_students_list_page(self, empty=True):
-        """ Check render students list page
+    def test_visit_get_students_list_page(self):
+        """ 2. Check render students list page
 
-        :param empty:
+        :param:
         :return:
         """
         url = reverse('get_students')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
-    def test_visit_add_student_page(self, empty=True):
-        """ Check render add student page
+    def test_visit_add_student_page(self):
+        """ 3. Check render add student page
 
-        :param empty:
+        :param:
         :return:
         """
         url = reverse('student_add')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
+    def test_add_new_student(self):
+        """4. Create new student
+        """
+        before = Student.objects.count()
+        url = reverse('student_add')
+        response = self.client.post(url, self.post_data)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(before + 1, Student.objects.count())
+    
+    def test_edit_student(self):
+        """4. Create edit student
+        """
+        before = Student.objects.count()
+        url = reverse('student_edit', args=[Student.objects.last().id])
+        response = self.client.post(url, self.post_data)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(before, Student.objects.count())
+
 
 class GroupTest(TestCase):
     """ This test checking next test cases:
-    1. Check render home page
+    1. Check render random group page
+    2. Check render groups list page
+    3. Check render add group page
     """
     
-    def test_visit_get_random_group_page(self, empty=True):
-        """ Check render random group page
+    def test_visit_get_random_group_page(self):
+        """ 1. Check render random group page
 
-        :param empty:
+        :param:
         :return:
         """
         url = reverse('get_group')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
     
-    def test_visit_get_groups_list_page(self, empty=True):
-        """ Check render groups list page
+    def test_visit_get_groups_list_page(self):
+        """ 2. Check render groups list page
 
-        :param empty:
+        :param:
         :return:
         """
         url = reverse('get_groups')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
-    def test_visit_add_group_page(self, empty=True):
-        """ Check render add group page
+    def test_visit_add_group_page(self):
+        """ 3. Check render add group page
 
-        :param empty:
+        :param:
         :return:
         """
         url = reverse('group_add')
