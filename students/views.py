@@ -91,7 +91,8 @@ def get_group(request):
 
 @render_to('groups_list.html')
 def get_groups(request):
-    groups = Group.objects.all().order_by('number')
+    groups = Group.objects.all()
+    groups = groups.select_related('head_student').select_related('head_teacher').order_by('number')
     query_str = request.GET.get('query_str')
     if query_str:
         groups = groups.filter(number__startswith=query_str)
