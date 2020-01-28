@@ -7,11 +7,18 @@ from django.forms import ModelForm, Form, ValidationError
 from django.core.mail import send_mail
 from django.conf import settings
 from django import forms
+from django.core.validators import RegexValidator
 
 from .models import Student, Group, Message
 
 
 class BaseStudentForm(ModelForm):
+    phone_validator = RegexValidator(
+        r'^\?1?\d{9,15}$',
+        "This value may contain only number!"
+        "Phone number must be entered in the format: '999999999'!")
+    phone_number = forms.IntegerField(validators=[phone_validator])
+
     def clean_email(self):
         email = self.cleaned_data['email'].lower() # то что пришло с формы
         print(self.instance.email)# то что есть
@@ -20,22 +27,22 @@ class BaseStudentForm(ModelForm):
         email_exists = Student.objects\
             .filter(email__iexact=email)\
             .exclude(email__iexact=self.instance.email)
-        print('email_exists: ', email_exists)
         if email_exists.exists():
             raise ValidationError(f'{email} is already used!')
         return email
 
 
 class StudentsAddForm(BaseStudentForm):
+
     class Meta:
         model = Student
-        fields = '__all__'
+        fields = ('id', 'first_name', 'last_name', 'birth_date', 'email', 'group')
 
 
 class StudentAdminForm(BaseStudentForm):
     class Meta:
         model = Student
-        fields = ('id', 'first_name', 'last_name', 'birth_date', 'email', 'phone', 'group')
+        fields = ('id', 'first_name', 'last_name', 'birth_date', 'email', 'group')
 
 
 class GroupsAddForm(ModelForm):
