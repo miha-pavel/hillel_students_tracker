@@ -21,7 +21,6 @@ class BaseStudentForm(ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data['email'].lower() # то что пришло с формы
-        print(self.instance.email)# то что есть
         # filter(email=email) -> filter(email__exact=email)
         # email должен быть регистронезависимым ->email__iexact
         email_exists = Student.objects\
@@ -33,7 +32,6 @@ class BaseStudentForm(ModelForm):
 
 
 class StudentsAddForm(BaseStudentForm):
-
     class Meta:
         model = Student
         fields = ('id', 'first_name', 'last_name', 'birth_date', 'email', 'group')

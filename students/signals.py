@@ -8,9 +8,6 @@ from .models import Student
 # название метода!!
 def pre_save_student(sender, instance, **kwargs):
     instance.email = instance.email.lower()
-    print('instance.email: ', instance.email)
 
     if instance.id is None:
-        print('Object is created')
         import inspect
-        print(inspect.stack())

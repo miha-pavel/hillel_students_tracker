@@ -27,7 +27,7 @@ class Teacher(models.Model):
                     last_name=fake.last_name(),
                     birth_date=fake.simple_profile(sex=None).get('birthdate'),
                     email=fake.email(),
-                    phone=fake.phone_number(),
+                    phone=int(''.join([n for n in fake.phone_number() if n.isdigit()])),
                     address=fake.simple_profile(sex=None).get('address')
                 )
         cls.teacher.save()
