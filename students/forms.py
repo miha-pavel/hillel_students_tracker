@@ -11,7 +11,7 @@ from django import forms
 from .models import Student, Group, Message
 
 
-class BaseStudentForm(ModelForm):
+class BasePersonForm(ModelForm):
 
     def clean_email(self):
         # то что пришло с формы
@@ -38,14 +38,14 @@ class BaseStudentForm(ModelForm):
         return phone
 
 
-class StudentsAddForm(BaseStudentForm):
+class StudentsAddForm(BasePersonForm):
 
     class Meta:
         model = Student
         fields = "__all__"
 
 
-class StudentAdminForm(BaseStudentForm):
+class StudentAdminForm(BasePersonForm):
     class Meta:
         model = Student
         fields = "__all__"

@@ -1,10 +1,10 @@
 from django.forms import ValidationError
 
 from .models import Teacher
-from students.forms import BaseStudentForm
+from students.forms import BasePersonForm
 
 
-class TeachersAddForm(BaseStudentForm):
+class TeachersAddForm(BasePersonForm):
 
     class Meta:
         model = Teacher
