@@ -8,7 +8,7 @@ class TeachersAddForm(BaseStudentForm):
 
     class Meta:
         model = Teacher
-        fields = ('id', 'first_name', 'last_name', 'birth_date', 'email')
+        fields = "__all__"
 
     def clean_email(self):
         # то что пришло с формы
