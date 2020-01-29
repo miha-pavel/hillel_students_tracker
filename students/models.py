@@ -58,8 +58,12 @@ class Student(models.Model):
 
 
 class Group(models.Model):
-    LIST_DEPARTMENT = ['Electrification', 'Mechanics', 'Bridges and tunnels', 'Information Technology']
-    DEPARTMENT = [(i, dep) for i, dep in enumerate(LIST_DEPARTMENT)]
+    ELECTRIFICATION, MECHANICS, BRIDGES_TUNNELS, INFORMATION_TECHNOLOGY = 0, 1, 2, 3
+    DEPARTMENT = (
+        (ELECTRIFICATION, 'Electrification'),
+        (MECHANICS, 'Mechanics'),
+        (BRIDGES_TUNNELS, 'Bridges and tunnels'),
+        (INFORMATION_TECHNOLOGY, 'Information Technology'),)
 
     YEAR_CHOICES = [(r, r) for r in range(1980, date.today().year+1)]
 
@@ -69,7 +73,7 @@ class Group(models.Model):
         default=datetime.now().year)
     department = models.PositiveSmallIntegerField(
         choices=DEPARTMENT,
-        default=0)
+        default=ELECTRIFICATION)
     specialty_number = models.PositiveSmallIntegerField(default=141)
     specialty_name = models.CharField(max_length=255, default='electrition')
     head_student = models.ForeignKey(
