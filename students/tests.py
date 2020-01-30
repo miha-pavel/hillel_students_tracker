@@ -162,7 +162,7 @@ class StudentTest(BaseTest):
             'last_name': fake.last_name(),
             'birth_date': fake.simple_profile(sex=None).get('birthdate'),
             'email': self.email,
-            'phone': int(''.join([n for n in fake.phone_number() if n.isdigit()])),
+            'phone': fake.phone_number(),
             'address': fake.simple_profile(sex=None).get('address')
         }
         response = self.client.post(url, post_data)
@@ -191,19 +191,19 @@ class StudentTest(BaseTest):
         """11. Create new student with invalid phone
         """
         url = reverse('student_add')
-        phone = '+38(097)-123-456-789'
+        invalid_phone = '+38(097)-123-456-789'
         post_data = {
             'first_name': fake.first_name(),
             'last_name': fake.last_name(),
             'birth_date': fake.simple_profile(sex=None).get('birthdate'),
             'email': fake.email(),
-            'phone': phone,
+            'phone': invalid_phone,
             'address': fake.simple_profile(sex=None).get('address')
         }
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(''.join([n for n in invalid_phone if n.isdigit()]), Student.objects.last().phone)
         self.assertEqual(self.before+1, Student.objects.count())
-        self.assertEqual(''.join([n for n in phone if n.isdigit()]), Student.objects.last().phone)
 
 
 class GroupTest(BaseTest):

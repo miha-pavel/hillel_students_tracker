@@ -130,7 +130,7 @@ class TeacherTest(TestCase):
             'last_name': fake.last_name(),
             'birth_date': fake.simple_profile(sex=None).get('birthdate'),
             'email': self.email,
-            'phone': int(''.join([n for n in fake.phone_number() if n.isdigit()])),
+            'phone': fake.phone_number(),
             'address': fake.simple_profile(sex=None).get('address')
         }
         response = self.client.post(url, post_data)
@@ -170,5 +170,5 @@ class TeacherTest(TestCase):
         }
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(self.before+1, Teacher.objects.count())
         self.assertEqual(''.join([n for n in phone if n.isdigit()]), Teacher.objects.last().phone)
+        self.assertEqual(self.before+1, Teacher.objects.count())
