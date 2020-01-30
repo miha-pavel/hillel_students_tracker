@@ -31,18 +31,18 @@ class TeacherTest(TestCase):
         super(TeacherTest, cls).setUpClass()
         cls.client = Client()
         cls.post_data = {
-            'first_name': 'New_first_name',
-            'last_name': 'New_last_name',
+            'first_name': fake.first_name(),
+            'last_name': fake.last_name(),
             'birth_date': datetime.date.today(),
-            'email': 'New_email@gmail.com',
-            'phone': '2562374527'
+            'email': fake.email(),
+            'phone': fake.phone_number(),
             }
         cls.incorrect_post_data = {
-            'first_name': 'New_first_name',
-            'last_name': 'New_last_name',
+            'first_name': fake.first_name(),
+            'last_name': fake.last_name(),
             'birth_date': datetime.date.today(),
             'email': 'New_email@gma',
-            'phone': '2562374527'
+            'phone': fake.phone_number(),
             }
 
     def setUp(self):

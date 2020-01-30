@@ -83,7 +83,7 @@ class StudentTest(BaseTest):
             'birth_date': datetime.date.today(),
             'email': 'New_email@gma',
             'group': Group.objects.last().id,
-            'phone': int(''.join([n for n in fake.phone_number() if n.isdigit()])),
+            'phone': fake.phone_number(),
             }
 
     def setUp(self):
