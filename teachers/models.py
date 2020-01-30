@@ -8,8 +8,8 @@ class Teacher(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     birth_date = models.DateField()
-    email = models.EmailField()
-    phone = models.CharField(max_length=30)
+    email = models.EmailField(unique=True)
+    phone = models.CharField(max_length=30, unique=True)
     address = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
@@ -23,11 +23,11 @@ class Teacher(models.Model):
     def generate_person(cls):
         fake = Faker()
         cls.teacher = cls(
-                    first_name=fake.first_name(),
-                    last_name=fake.last_name(),
+                    first_name=fake.first_name().title(),
+                    last_name=fake.last_name().title(),
                     birth_date=fake.simple_profile(sex=None).get('birthdate'),
                     email=fake.email(),
-                    phone=fake.phone_number(),
+                    phone=int(''.join([n for n in fake.phone_number() if n.isdigit()])),
                     address=fake.simple_profile(sex=None).get('address')
                 )
         cls.teacher.save()

@@ -5,7 +5,7 @@ from django.urls import reverse
 from annoying.decorators import render_to
 
 from .models import Student, Group
-from .forms import StudentsAddForm, GroupsAddForm, ContactForm
+from students.forms import StudentsAddForm, GroupsAddForm, ContactForm
 
 
 def home_page(request):

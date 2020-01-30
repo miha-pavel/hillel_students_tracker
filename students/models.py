@@ -14,8 +14,8 @@ class Student(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     birth_date = models.DateField()
-    email = models.EmailField()
-    phone = models.CharField(max_length=30)
+    email = models.EmailField(unique=True)
+    phone = models.CharField(max_length=30, unique=True)
     address = models.CharField(max_length=255, null=True, blank=True)
     group = models.ForeignKey(
         'students.Group',
@@ -37,11 +37,11 @@ class Student(models.Model):
     def generate_person(cls):
         fake = Faker()
         cls.student = cls(
-                    first_name=fake.first_name(),
-                    last_name=fake.last_name(),
+                    first_name=fake.first_name().title(),
+                    last_name=fake.last_name().title(),
                     birth_date=fake.simple_profile(sex=None).get('birthdate'),
                     email=fake.email(),
-                    phone=fake.phone_number(),
+                    phone=int(''.join([n for n in fake.phone_number() if n.isdigit()])),
                     address=fake.simple_profile(sex=None).get('address')
                 )
         cls.student.save()
@@ -58,22 +58,22 @@ class Student(models.Model):
 
 
 class Group(models.Model):
+    ELECTRIFICATION, MECHANICS, BRIDGES_TUNNELS, INFORMATION_TECHNOLOGY = 0, 1, 2, 3
     DEPARTMENT = (
-        ('E', 'Electrification'),
-        ('M', 'Mechanics'),
-        ('BT', 'Bridges and tunnels'),
-        ('IT', 'Information Technology'),
-    )
+        (ELECTRIFICATION, 'Electrification'),
+        (MECHANICS, 'Mechanics'),
+        (BRIDGES_TUNNELS, 'Bridges and tunnels'),
+        (INFORMATION_TECHNOLOGY, 'Information Technology'),)
+
     YEAR_CHOICES = [(r, r) for r in range(1980, date.today().year+1)]
 
     number = models.PositiveSmallIntegerField()
-    created_year = models.IntegerField(
+    created_year = models.PositiveSmallIntegerField(
         choices=YEAR_CHOICES,
         default=datetime.now().year)
-    department = models.CharField(
-        max_length=3,
+    department = models.PositiveSmallIntegerField(
         choices=DEPARTMENT,
-        default='E')
+        default=ELECTRIFICATION)
     specialty_number = models.PositiveSmallIntegerField(default=141)
     specialty_name = models.CharField(max_length=255, default='electrition')
     head_student = models.ForeignKey(
