@@ -21,3 +21,12 @@ class TeachersAddForm(BasePersonForm):
         if email_exists.exists():
             raise ValidationError(f'{email} is already used!')
         return email
+
+    def clean_phone(self):
+        phone = self.cleaned_data['phone']
+        phone_exists = Teacher.objects\
+            .filter(phone__iexact=phone)\
+            .exclude(id=self.instance.id)
+        if phone_exists.exists():
+            raise ValidationError(f'{phone} is already used!')
+        return phone

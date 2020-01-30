@@ -23,6 +23,7 @@ class TeacherTest(TestCase):
     8. Create new teacher by incorrect data
     9. Create new teacher with not unique email
     10. Create new teacher with not unique phone
+    11. Create new teacher with invalid phone
     """
 
     @classmethod
@@ -151,5 +152,23 @@ class TeacherTest(TestCase):
         }
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
-        self.assertTrue('Teacher with this Phone already exists.' in str(response.content))
+        self.assertTrue(f'{self.phone} is already used!' in str(response.content))
         self.assertEqual(self.before, Teacher.objects.count())
+
+    def test_invalid_phone(self):
+        """11. Create new teacher with invalid phone
+        """
+        url = reverse('teacher_add')
+        phone = '+38(097)-123-456-789'
+        post_data = {
+            'first_name': fake.first_name(),
+            'last_name': fake.last_name(),
+            'birth_date': fake.simple_profile(sex=None).get('birthdate'),
+            'email': fake.email(),
+            'phone': phone,
+            'address': fake.simple_profile(sex=None).get('address')
+        }
+        response = self.client.post(url, post_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.before+1, Teacher.objects.count())
+        self.assertEqual(''.join([n for n in phone if n.isdigit()]), Teacher.objects.last().phone)

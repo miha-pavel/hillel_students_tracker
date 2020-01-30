@@ -5,13 +5,19 @@ import io
 from django.core.files import File
 from django.forms import ModelForm, Form, ValidationError
 from django.core.mail import send_mail
+from django.core.validators import RegexValidator
 from django.conf import settings
 from django import forms
+
 
 from .models import Student, Group, Message
 
 
 class BasePersonForm(ModelForm):
+    phone_regex = RegexValidator(
+        regex=r'^\d{9,15}$',
+        message="Phone number must be entered in the format: '999999999'.")
+    phone = forms.CharField(validators=[phone_regex], max_length=15)
 
     def clean_email(self):
         # то что пришло с формы
@@ -24,17 +30,14 @@ class BasePersonForm(ModelForm):
         if email_exists.exists():
             raise ValidationError(f'{email} is already used!')
         return email
-
-    def clean_first_name(self):
-        first_name = self.cleaned_data['first_name'].title()
-        return first_name
-
-    def clean_last_name(self):
-        last_name = self.cleaned_data['last_name'].title()
-        return last_name
-
+    
     def clean_phone(self):
-        phone = int(''.join([n for n in self.cleaned_data['phone'] if n.isdigit()]))
+        phone = self.cleaned_data['phone']
+        phone_exists = Student.objects\
+            .filter(phone__iexact=phone)\
+            .exclude(id=self.instance.id)
+        if phone_exists.exists():
+            raise ValidationError(f'{phone} is already used!')
         return phone
 
 

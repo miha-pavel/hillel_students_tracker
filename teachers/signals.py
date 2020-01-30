@@ -1,12 +1,12 @@
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
-from .models import Student
+from .models import Teacher
 
 # https://simpleisbetterthancomplex.com/tutorial/2016/07/28/how-to-create-django-signals.html
-@receiver(pre_save, sender=Student)
+@receiver(pre_save, sender=Teacher)
 # название метода!!
-def pre_save_student(sender, instance, **kwargs):
+def pre_save_teacher(sender, instance, **kwargs):
     if instance.pk:
         phone = ''.join([n for n in instance.phone if n.isdigit()])
         instance.phone = phone
