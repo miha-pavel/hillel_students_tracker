@@ -33,7 +33,6 @@ class BasePersonForm(ModelForm):
     
     def clean_phone(self):
         phone = self.cleaned_data['phone']
-        phone = ''.join([n for n in phone if n.isdigit()])
         phone_exists = Student.objects\
             .filter(phone__iexact=phone)\
             .exclude(id=self.instance.id)
