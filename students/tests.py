@@ -75,7 +75,7 @@ class StudentTest(BaseTest):
             'birth_date': datetime.date.today(),
             'email': fake.email(),
             'group': Group.objects.last().id,
-            'phone': int(''.join([n for n in fake.phone_number() if n.isdigit()])),
+            'phone': fake.phone_number(),
             }
         cls.incorrect_post_data = {
             'first_name': fake.first_name(),
