@@ -11,6 +11,7 @@ from django import forms
 
 
 from .models import Student, Group, Message
+from .tasks import send_email_async
 
 
 class BasePersonForm(ModelForm):
@@ -78,8 +79,10 @@ class ContactForm(Form):
         subject = data['subject']
         message = data['text']
         email_from = data['email']
-        recipient_list = [settings.EMAIL_HOST_USER]
-        send_mail(subject, message, email_from, recipient_list)
+        student, _ = Student.objects.get_or_create(email=email_from)
+        # recipient_list = [settings.EMAIL_HOST_USER]
+        # send_mail(subject, message, email_from, recipient_list)
+        send_email_async.delay(subject, message, student.id)
         fname = f'{datetime.datetime.now()}.txt'
         in_memory_file = io.StringIO(str(data))
         message_file = File(in_memory_file, name=fname)
