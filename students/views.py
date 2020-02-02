@@ -1,11 +1,18 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
+from django.contrib.auth import login
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
 
 from annoying.decorators import render_to
 
 from .models import Student, Group
-from students.forms import StudentsAddForm, GroupsAddForm, ContactForm
+from .forms import StudentsAddForm, GroupsAddForm, ContactForm, SignupForm
+from .tokens import account_activation_token
+from .tasks import send_signup_email
 
 
 def home_page(request):
@@ -49,6 +56,46 @@ def student_add(request):
     else:
         form = StudentsAddForm()
     return {"form": form}
+
+
+@render_to('signup.html')
+def signup(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            student = form.save(commit=False)
+            student.is_active = False
+            student.save()
+            current_site = get_current_site(request)
+            subject = 'Activate your account.'
+            message = render_to_string('acc_active_email.html', {
+                'student': student,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(student.pk)),
+                'token': account_activation_token.make_token(student),
+            })
+            recipient = form.cleaned_data.get('email')
+            send_signup_email.delay(subject=subject, message=message, to=recipient)
+            return HttpResponse('Please confirm your email address to complete the registration')
+    else:
+        form = SignupForm()
+    return {'form': form}
+
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        student = Student.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, Student.DoesNotExist):
+        student = None
+    if student is not None and account_activation_token.check_token(student, token):
+        student.is_active = True
+        student.save()
+        login(request, student)
+        # return redirect('home')
+        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+    else:
+        return HttpResponse('Activation link is invalid!')
 
 
 @render_to('student_edit.html')

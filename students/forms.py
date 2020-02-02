@@ -8,7 +8,8 @@ from django.core.mail import send_mail
 from django.core.validators import RegexValidator
 from django.conf import settings
 from django import forms
-
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 from .models import Student, Group, Message
 from .tasks import send_email_async
@@ -67,6 +68,14 @@ class GroupsAddForm(ModelForm):
             'head_student',
             'head_teacher'
         ]
+
+
+class SignupForm(UserCreationForm):
+    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+    
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
 
 
 class ContactForm(Form):

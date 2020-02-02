@@ -6,6 +6,10 @@ urlpatterns = [
     path('gen/', views.get_student, name='get_student'),
     path('list/', views.get_students, name='get_students'),
     path('add/', views.student_add, name='student_add'),
+    path('signup/', views.signup, name='signup'),
+    path(
+        'activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',
+        views.activate, name='activate'),
     path('edit/<int:pk>/', views.student_edit, name='student_edit'),
     path('delete/<int:pk>/', views.student_delete, name="student_delete"),
     path('contact/', views.contact, name='contact'),

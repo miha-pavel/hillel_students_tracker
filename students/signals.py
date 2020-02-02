@@ -1,7 +1,9 @@
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
+from django.contrib.auth.models import User
 
 from .models import Student
+
 
 # https://simpleisbetterthancomplex.com/tutorial/2016/07/28/how-to-create-django-signals.html
 @receiver(pre_save, sender=Student)
@@ -14,3 +16,10 @@ def pre_save_student(sender, instance, **kwargs):
 
     if instance.id is None:
         import inspect
+
+
+@receiver(post_save, sender=User)
+def post_save_student(sender, instance, created, **kwargs):
+    if created:
+        Student.objects.create(user=instance)
+    instance.student.save()
