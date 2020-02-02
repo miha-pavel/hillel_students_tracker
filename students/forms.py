@@ -8,9 +8,11 @@ from django.core.mail import send_mail
 from django.core.validators import RegexValidator
 from django.conf import settings
 from django import forms
-
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 from .models import Student, Group, Message
+from .tasks import send_email_async
 
 
 class BasePersonForm(ModelForm):
@@ -68,6 +70,14 @@ class GroupsAddForm(ModelForm):
         ]
 
 
+class SignupForm(UserCreationForm):
+    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+    
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
+
+
 class ContactForm(Form):
     email = forms.EmailField()
     subject = forms.CharField(required=False)
@@ -78,8 +88,10 @@ class ContactForm(Form):
         subject = data['subject']
         message = data['text']
         email_from = data['email']
-        recipient_list = [settings.EMAIL_HOST_USER]
-        send_mail(subject, message, email_from, recipient_list)
+        student, _ = Student.objects.get_or_create(email=email_from)
+        # recipient_list = [settings.EMAIL_HOST_USER]
+        # send_mail(subject, message, email_from, recipient_list)
+        send_email_async.delay(subject, message, student.id)
         fname = f'{datetime.datetime.now()}.txt'
         in_memory_file = io.StringIO(str(data))
         message_file = File(in_memory_file, name=fname)

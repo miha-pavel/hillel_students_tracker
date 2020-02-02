@@ -12,3 +12,6 @@ sh_p:
 
 migrate:
 	./manage.py migrate
+
+celery:
+	celery -A students_tracker worker -l info

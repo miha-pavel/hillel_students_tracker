@@ -3,6 +3,7 @@ from random import randrange
 
 from django.db import models
 from django.db.models import Q
+from django.contrib.auth.models import User
 
 from .fields import JSONField
 from faker import Faker
@@ -11,10 +12,9 @@ from teachers.models import Teacher
 
 
 class Student(models.Model):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email_confirmed = models.BooleanField(default=False)
     birth_date = models.DateField()
-    email = models.EmailField(unique=True)
     phone = models.CharField(max_length=30, unique=True)
     address = models.CharField(max_length=255, null=True, blank=True)
     group = models.ForeignKey(

@@ -202,8 +202,8 @@ class StudentTest(BaseTest):
         }
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(''.join([n for n in invalid_phone if n.isdigit()]), Student.objects.last().phone)
         self.assertEqual(self.before+1, Student.objects.count())
+        self.assertEqual(''.join([n for n in invalid_phone if n.isdigit()]), Student.objects.last().phone)
 
 
 class GroupTest(BaseTest):
