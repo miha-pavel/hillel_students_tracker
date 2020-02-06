@@ -12,6 +12,8 @@ urlpatterns = [
     path('teachers/', include('teachers.urls')),
 ]
 
+urlpatterns += [path('silk/', include('silk.urls', namespace='silk'))]
+
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
