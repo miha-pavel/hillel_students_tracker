@@ -122,7 +122,7 @@ Or use makefile guide
 2б. редактирование студента
 
 
-### Домашнее задание 12
+### Домашнее задание 13
 Добавлено: 02.02.2020 14:44
 Реализовать функионал
 1. [x] Install and set up [django-silk tool](https://github.com/jazzband/django-silk)

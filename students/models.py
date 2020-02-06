@@ -114,3 +114,27 @@ class Message(models.Model):
 
     def __str__(self):
         return f'{self.email}'
+
+
+class Logger(models.Model):
+    GET, POST, DELETE, PUT, PATCH, HEAD, CONNECT, OPTIONS, TRACE = 0, 1, 2, 3, 4, 5, 6, 7, 8
+    METHOD = (
+        (GET, 'GET'), (POST, 'POST'), (DELETE, 'DELETE'), (PUT, 'PUT'), (PATCH, 'PATCH'),
+        (HEAD, 'HEAD'), (CONNECT, 'CONNECT'), (OPTIONS, 'OPTIONS'), (TRACE, 'TRACE'),
+        )
+    METHODS_REVERSED_MAP = {name: id for id, name in METHOD}
+
+    path = models.CharField(max_length=255)
+    method = models.PositiveSmallIntegerField(
+        choices=METHOD,
+        default=GET)
+    ime_delta = models.PositiveSmallIntegerField()
+    user_id = models.PositiveSmallIntegerField(null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Logger"
+        verbose_name_plural = "Loggers"
+
+    def __str__(self):
+        return f'{self.path}'
