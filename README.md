@@ -126,12 +126,12 @@ Or use makefile guide
 Добавлено: 02.02.2020 14:44
 Реализовать функионал
 1. [x] Install and set up [django-silk tool](https://github.com/jazzband/django-silk)
-2. Cоздать Middleware которая будет логировать все действия
-   - в рамках админки и сохранять в базу
-   - class Logger(models.model):
-   - path = CharField
-   - method = CharField OR IntegerField with choice
-   - ime_delta = CharField or Other Время работы вью функции
-   - user_id = IntegerField
-   - created = DateTimeField (auto_now=True)
+2. [x] Cоздать Middleware которая будет логировать все действия
+       - в рамках админки и сохранять в базу
+       - class Logger(models.model):
+       - path = CharField
+       - method = CharField OR IntegerField with choice
+       - ime_delta = CharField or Other Время работы вью функции
+       - user_id = IntegerField
+       - created = DateTimeField (auto_now=True)
 
