@@ -1,5 +1,6 @@
 import time
 
+from students import model_choices as mch
 from students.models import Logger
 
 
@@ -25,17 +26,17 @@ class LoggerAdminMiddleware(object):
         self.get_response = get_response
 
     def __call__(self, request):
-        current_url = request.path
-        request.start_time = time.time()
+        current_path = request.path
+        start_time = time.time()
 
         response = self.get_response(request)
 
-        if 'admin' in current_url:
+        if current_path.startswith('/admin/'):
             current_user = request.user
-            query_duration = time.time() - request.start_time
+            query_duration = time.time() - start_time
             Logger.objects.create(
-                path=current_url,
-                method=Logger.METHODS_REVERSED_MAP[request.method],
+                path=current_path,
+                method=mch.METHODS_REVERSED_MAP[request.method],
                 ime_delta=int(query_duration * 1000),
                 user_id=current_user.id
             )

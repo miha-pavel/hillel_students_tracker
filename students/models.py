@@ -4,10 +4,11 @@ from random import randrange
 from django.db import models
 from django.db.models import Q
 
-from .fields import JSONField
 from faker import Faker
 
+from .fields import JSONField
 from teachers.models import Teacher
+from students import model_choices as mch
 
 
 class Student(models.Model):
@@ -126,7 +127,7 @@ class Logger(models.Model):
 
     path = models.CharField(max_length=255)
     method = models.PositiveSmallIntegerField(
-        choices=METHOD,
+        choices=mch.METHOD,
         default=GET)
     ime_delta = models.PositiveSmallIntegerField()
     user_id = models.PositiveSmallIntegerField(null=True)

@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth import  authenticate, login, logout
 
 from annoying.decorators import render_to
 
 from .models import Student, Group
-from students.forms import StudentsAddForm, GroupsAddForm, ContactForm
+from students.forms import StudentsAddForm, GroupsAddForm, ContactForm, UserRegistrationForm, UserLoginForm
 
 
 def home_page(request):
@@ -68,6 +69,43 @@ def student_edit(request, pk):
 def student_delete(request, pk):
     student = get_object_or_404(Student, id=pk)
     student.delete()
+    return HttpResponseRedirect(reverse('get_students'))
+
+
+@render_to('register.html')
+def register(request):
+    if request.method == "POST":
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('get_students'))
+    else:
+        form = UserRegistrationForm()
+    return {"form": form}
+
+
+@render_to('login.html')
+def custom_login(request):
+
+    # if request.GET.get('logout'):
+    #     logout(request)
+
+    if request.method == "POST":
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            user = authenticate(
+                request,
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password'])
+            login(request, user)
+            return HttpResponseRedirect(reverse('get_students'))
+    else:
+        form = UserLoginForm()
+    return {"form": form}
+
+
+def custom_logout(request):
+    logout(request)
     return HttpResponseRedirect(reverse('get_students'))
 
 

@@ -5,6 +5,7 @@ import io
 from django.core.files import File
 from django.forms import ModelForm, Form, ValidationError
 from django.core.mail import send_mail
+from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.conf import settings
 from django import forms
@@ -85,3 +86,19 @@ class ContactForm(Form):
         message_file = File(in_memory_file, name=fname)
         data = json.dumps(data)
         Message.objects.create(email=email_from, message=data, message_file=message_file)
+
+
+class UserRegistrationForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.set_password(self.cleaned_data['password'])
+        super().save(commit)
+
+
+class UserLoginForm(Form):
+    username = forms.CharField()
+    password = forms.CharField()

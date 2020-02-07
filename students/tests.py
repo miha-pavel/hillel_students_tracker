@@ -75,7 +75,7 @@ class StudentTest(BaseTest):
             'birth_date': datetime.date.today(),
             'email': fake.email(),
             'group': Group.objects.last().id,
-            'phone': fake.phone_number(),
+            'phone': '123456789',
             }
         cls.incorrect_post_data = {
             'first_name': fake.first_name(),
@@ -116,6 +116,7 @@ class StudentTest(BaseTest):
         """
         url = reverse('student_add')
         response = self.client.post(url, self.post_data)
+        print('response: ', response)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(self.before + 1, Student.objects.count())
 
@@ -202,7 +203,24 @@ class StudentTest(BaseTest):
         }
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(''.join([n for n in invalid_phone if n.isdigit()]), Student.objects.last().phone)
+        self.assertEqual(self.before, Student.objects.count())
+
+    def test_valid_phone(self):
+        """11. Create new student with invalid phone
+        """
+        url = reverse('student_add')
+        valid_phone = '38097123456789'
+        post_data = {
+            'first_name': fake.first_name(),
+            'last_name': fake.last_name(),
+            'birth_date': fake.simple_profile(sex=None).get('birthdate'),
+            'email': fake.email(),
+            'phone': valid_phone,
+            'address': fake.simple_profile(sex=None).get('address')
+        }
+        response = self.client.post(url, post_data)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(valid_phone, Student.objects.last().phone)
         self.assertEqual(self.before+1, Student.objects.count())
 
 
