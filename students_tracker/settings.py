@@ -1,5 +1,7 @@
 import os
 
+from celery.schedules import crontab
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -134,6 +136,22 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'static'))
+
+
+# Other Celery settings
+CELERY_TASK_ALWAYS_EAGER = True
+CELERY_ALWAYS_EAGER = True
+CELERY_BEAT_SCHEDULE = {
+    'see-you': {
+        'task': 'students.tasks.see_you',
+        'schedule': 30.0,
+    },
+    'clean-logger': {
+        'task': 'students.tasks.clean_logger',
+        'schedule': crontab(minute=59, hour=23),
+    },
+}
+CELERY_TIMEZONE = 'UTC'
 
 
 try:
