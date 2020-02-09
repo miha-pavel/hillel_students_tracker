@@ -35,7 +35,7 @@ class TeacherTest(TestCase):
             'last_name': fake.last_name(),
             'birth_date': datetime.date.today(),
             'email': fake.email(),
-            'phone': fake.phone_number(),
+            'phone': '123456789',
             }
         cls.incorrect_post_data = {
             'first_name': fake.first_name(),
@@ -170,5 +170,22 @@ class TeacherTest(TestCase):
         }
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(''.join([n for n in phone if n.isdigit()]), Teacher.objects.last().phone)
+        self.assertEqual(self.before, Teacher.objects.count())
+    
+    def test_valid_phone(self):
+        """11. Create new teacher with invalid phone
+        """
+        url = reverse('teacher_add')
+        phone = '38097123456789'
+        post_data = {
+            'first_name': fake.first_name(),
+            'last_name': fake.last_name(),
+            'birth_date': fake.simple_profile(sex=None).get('birthdate'),
+            'email': fake.email(),
+            'phone': phone,
+            'address': fake.simple_profile(sex=None).get('address')
+        }
+        response = self.client.post(url, post_data)
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(self.before+1, Teacher.objects.count())
+        self.assertEqual(phone, Teacher.objects.last().phone)
