@@ -15,3 +15,6 @@ migrate:
 
 celery:
 	celery -A students_tracker worker -l info
+
+celery_beat:
+	celery -A students_tracker beat -l info

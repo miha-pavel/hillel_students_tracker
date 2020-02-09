@@ -171,7 +171,7 @@ class TeacherTest(TestCase):
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.before, Teacher.objects.count())
-    
+
     def test_valid_phone(self):
         """11. Create new teacher with invalid phone
         """
