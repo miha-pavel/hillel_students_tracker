@@ -68,6 +68,7 @@ docs/_build/
 target/
 
 local_settings.py
+tmp.py
 local_wsgi.py
 media/
 db/

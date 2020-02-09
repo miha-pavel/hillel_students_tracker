@@ -135,3 +135,16 @@ Or use makefile guide
        - user_id = IntegerField
        - created = DateTimeField (auto_now=True)
 
+
+### Домашнее задание 13
+Добавлено: 07.02.2020 17:45
+Добавить CeleryBeat
+Написать таску, которая выполняется один раз в день.
+
+Таска Чистит обьекты логгера (модель Logger) у которые были созданы больше чем 7 дней назад.
+
+
+https://medium.com/@yedjoe/celery-4-periodic-task-in-django-9f6b5a8c21c7
+
+
+!!! Весь необходимый материал находиться до главы Daemonization !!!
