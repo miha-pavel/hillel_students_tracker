@@ -18,3 +18,6 @@ celery:
 
 celery_beat:
 	celery -A students_tracker beat -l info
+
+rabbit:
+	rabbitmq-server

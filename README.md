@@ -31,6 +31,10 @@ Or use makefile guide
 * ```make pep8``` - will check the code with pylint
 * ```make sh_p``` - will run django shell_plus
 * ```make migrate``` - will run django "./manage.py migrate" command
+* ```make celery``` - will run celery
+* ```make celery_beat``` - will run celerybeat
+* ```make rabbit``` - will run rabbitmq brocker
+
 
 ## Default super user
 * Username: admin
