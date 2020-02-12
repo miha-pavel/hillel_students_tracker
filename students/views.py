@@ -1,12 +1,14 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.contrib.auth import  authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout
 
 from annoying.decorators import render_to
 
 from .models import Student, Group
-from students.forms import StudentsAddForm, GroupsAddForm, ContactForm, UserRegistrationForm, UserLoginForm
+from students.forms import (
+    StudentsAddForm, GroupsAddForm,
+    ContactForm, UserRegistrationForm, UserLoginForm)
 
 
 def home_page(request):

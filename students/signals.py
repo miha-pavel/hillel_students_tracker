@@ -7,7 +7,7 @@ from .models import Student
 @receiver(pre_save, sender=Student)
 # название метода!!
 def pre_save_student(sender, instance, **kwargs):
-    instance.phone = int(''.join([n for n in instance.phone if n.isdigit()]))
+    instance.phone = instance.phone
     instance.email = instance.email.lower()
     instance.first_name = instance.first_name.title()
     instance.last_name = instance.last_name.title()
