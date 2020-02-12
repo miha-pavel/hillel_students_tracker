@@ -11,7 +11,11 @@ __pycache__/
 
 # C extensions
 *.so
+
+# database
 *.sql
+*.db
+*.pid
 db.sqlite3
 *.~
 
