@@ -1,7 +1,7 @@
 import datetime
 
 from django.urls import reverse
-from django.test import TestCase
+from django.test import TestCase, SimpleTestCase, override_settings
 from django.test.client import Client
 
 from faker import Faker
@@ -299,3 +299,15 @@ class GroupTest(BaseTest):
         response = self.client.post(url)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(self.before-1, Group.objects.count())
+
+
+class CustomErrorHandlerTests(TestCase):
+    # https://docs.djangoproject.com/en/3.0/topics/http/views/#customizing-error-views
+    def test_handler_renders_404_template_response(self):
+        response = self.client.get('/404/')
+        # Make assertions on the response here. For example:
+        self.assertContains(response, 'We could not find this page', status_code=404)
+    
+    def test_handler_renders_500_template_response(self):
+        response = self.client.get('/500/')
+        self.assertContains(response, 'Server has some problem', status_code=500)

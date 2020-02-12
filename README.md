@@ -140,15 +140,27 @@ Or use makefile guide
        - created = DateTimeField (auto_now=True)
 
 
-### Домашнее задание 13
+### Домашнее задание 14
 Добавлено: 07.02.2020 17:45
 Добавить CeleryBeat
 Написать таску, которая выполняется один раз в день.
 
-Таска Чистит обьекты логгера (модель Logger) у которые были созданы больше чем 7 дней назад.
+1. [x] Таска Чистит обьекты логгера (модель Logger) у которые были созданы больше чем 7 дней назад.
 
 
 https://medium.com/@yedjoe/celery-4-periodic-task-in-django-9f6b5a8c21c7
 
 
 !!! Весь необходимый материал находиться до главы Daemonization !!!
+
+
+### Домашнее задание 14
+Добавлено: 10.02.2020 10:42
+uwsgi, celery, custom error pages
+
+1. Вместо gunicorn использовать uwsgi. демонизировать через systemctl. https://uwsgi-docs.readthedocs.io/en/latest/WSGIquickstart.html
+2. демонизировать celery, celerybeat
+3. Джанго. Возвращать кастомные ошибки (404, 500) https://medium.com/@MicroPyramid/handling-custom-error-pages-404-500-in-django-ff1f9e0cf2b5
+
+
+В репозитории должны быть файлы настроек systemctl
