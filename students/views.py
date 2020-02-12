@@ -169,3 +169,11 @@ def group_delete(request, pk):
     group = get_object_or_404(Group, id=pk)
     group.delete()
     return HttpResponseRedirect(reverse('get_groups'))
+
+
+def handler404(request, exception=None):
+    return render(request, '404.html', status=404)
+
+
+def handler500(request):
+    return render(request, '500.html', status=500)
